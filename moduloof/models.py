@@ -28,7 +28,7 @@ class Tpadesivo(models.Model):
 
 class Filme_bopp(models.Model):
     descricao = models.CharField(max_length=200, blank=False, null=False)
-    tipo = models.ForeignKey(Tpfilme, on_delete=CASCADE, blank=False, null=False)
+    tipo = models.ForeignKey(Tpfilme, on_delete=models.CASCADE, blank=False, null=False)
     micragem = models.DecimalField(max_digits=2, decimal_places=0, blank=False, null=False)
     gramatura = models.DecimalField(max_digits=3, decimal_places=1, blank=False, null=False)
     rendimento = models.DecimalField(max_digits=3, decimal_places=1, blank=False, null=False)
@@ -49,10 +49,10 @@ class Acabamento(models.Model):
 class Orcamento_filme(models.Model):
     data_criacao = models.DateTimeField(auto_now_add=True)
     data = models.DateTimeField()
-    cliente = models.ForeignKey(Cliente, on_delete=CASCADE, blank=False, null=False)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=False, null=False)
     servico = models.CharField(max_length=400, blank=False, null=False)
-    material = models.ForeignKey(Filme_bopp, on_delete=CASCADE, blank=False, null=False)
-    acabamento = models.ForeignKey(Acabamento, on_delete=CASCADE, blank=False, null=False)
+    material = models.ForeignKey(Filme_bopp, on_delete=models.CASCADE, blank=False, null=False)
+    acabamento = models.ForeignKey(Acabamento, on_delete=models.CASCADE, blank=False, null=False)
     comp = models.DecimalField(max_digits=3, decimal_places=0, blank=False, null=False)
     larg = models.DecimalField(max_digits=3, decimal_places=0, blank=False, null=False)
     quantidade = models.DecimalField(max_digits=7, decimal_places=0, blank=False, null=False)
@@ -70,13 +70,30 @@ class Adesivo(models.Model):
         return self.descricao
 
 
+class Orc_adesivo(models.Model):
+    data_criacao = models.DateTimeField(auto_now_add=True)
+    data = models.DateTimeField()
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=False, null=False)
+    servico = models.CharField(max_length=400, blank=False, null=False)
+    material = models.ForeignKey(Adesivo, on_delete=models.CASCADE, blank=False, null=False)
+    acabamento = models.ForeignKey(Acabamento, on_delete=models.CASCADE, blank=False, null=False)
+    comp = models.DecimalField(max_digits=3, decimal_places=0, blank=False, null=False)
+    larg = models.DecimalField(max_digits=3, decimal_places=0, blank=False, null=False)
+    quantidade = models.DecimalField(max_digits=7, decimal_places=0, blank=False, null=False)
+
+    def __str__(self):
+        return self.cliente.nome + ' - ' + self.servico
+
+
+
+
 class Orcamento_adesivo(models.Model):
     data_criacao = models.DateTimeField(auto_now_add=True)
     data = models.DateTimeField()
-    cliente = models.ForeignKey(Cliente, on_delete=CASCADE, blank=False, null=False)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=False, null=False)
     servico = models.CharField(max_length=400, blank=False, null=False)
-    material = models.ForeignKey(Adesivo, on_delete=CASCADE, blank=False, null=False)
-    acabamento = models.ForeignKey(Acabamento, on_delete=CASCADE, blank=False, null=False)
+    material = models.ForeignKey(Adesivo, on_delete=models.CASCADE, blank=False, null=False)
+    acabamento = models.ForeignKey(Acabamento, on_delete=models.CASCADE, blank=False, null=False)
     comp = models.DecimalField(max_digits=3, decimal_places=0, blank=False, null=False)
     larg = models.DecimalField(max_digits=3, decimal_places=0, blank=False, null=False)
     quantidade = models.DecimalField(max_digits=7, decimal_places=0, blank=False, null=False)
