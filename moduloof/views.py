@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Orcamento_adesivo, Orcamento_filme
-from .forms import OcadesivoForm, OcfilmeForm
+from .models import Orcamento_adesivo, Orcamento_filme, Orc_adesivo
+from .forms import OcadesivoForm, OcfilmeForm, Orc_adesivoForm
 
 
 # Metodos
@@ -11,15 +11,6 @@ def calculodes(vl, ac):
     ac = float(ac)
     if ac > 0:
         return float(vl - (vl * (ac/100)))
-    else:
-        return vl
-
-
-def calculoaca(vl, ac):
-    vl = float(vl)
-    ac = float(ac)
-    if ac > 0:
-        return float(vl + (vl * (ac/100)))
     else:
         return vl
 
@@ -54,6 +45,17 @@ def calculova(mqg, vg, ac):
         return float(calculoaca(vg + a, ac))
     else:
         return float(calculoaca(vg + mi, ac))
+
+
+
+def calculoaca(vl, ac):
+    vl = float(vl)
+    ac = float(ac)
+    if ac > 0:
+        return float(vl + (vl * (ac/100)))
+    else:
+        return vl
+
 
 # Filme
 def calculovf(mqg, vg, ac):
@@ -107,6 +109,13 @@ def locfilme(request):
     return render(request, 'moduloof/locfilme.html', data)
 
 
+def lorc_adesivo(request):
+    data = {}
+    listagem = Orc_adesivo.objects.all()
+    data['listagem'] = listagem
+    return render(request, 'moduloof/lorc_adesivo.html', data)
+
+
 def novo_ocadesivo(request):
     data = {}
     form = OcadesivoForm(request.POST or None)
@@ -117,6 +126,18 @@ def novo_ocadesivo(request):
 
     data['form'] = form
     return render(request, 'moduloof/ocadesivobt.html', data)
+
+
+def novo_orc_adesivo(request):
+    data = {}
+    form = Orc_adesivoForm(request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect('url_lorc_adesivo')
+
+    data['form'] = form
+    return render(request, 'moduloof/orc_adesivo.html', data)
 
 
 def novo_ocfilme(request):
@@ -234,6 +255,43 @@ def cons_ocadesivo(request, pk):
     return render(request, 'moduloof/ocadesivobt.html', data)
 
 
+def cons_orc_adesivo(request, pk):
+    data = {}
+    teste = {}
+    cons = Orc_adesivo.objects.get(pk=pk)
+    form = Orc_adesivoForm(request.POST or None, instance=cons)
+    if form.is_valid():
+        form.save()
+        return redirect('url_cons_orc_adesivo', cons.id)
+
+    teste = cons.vaa
+
+    data['valor_a'] = teste
+
+
+
+
+    """
+    data['valor_b'] = cons.va['resb']
+    data['valor_c'] = cons.va['resc']
+    
+    data['total_a'] = round(cons.calc_va['resa'] * cons.calc_va['quanta'], 4)
+    data['total_b'] = round(cons.calc_va['resb'] * cons.calc_va['quantb'], 4)
+    data['total_c'] = round(cons.calc_va['resc'] * cons.calc_va['quantc'], 4)
+    data['quanta'] = cons.calc_va['quanta']
+    data['quantb'] = cons.calc_va['quantb']
+    data['quantc'] = cons.calc_va['quantc']
+    data['vaa'] = cons.calc_va['vaa']
+    data['vab'] = cons.calc_va['vab']
+    data['vac'] = cons.calc_va['vac']
+
+    data['vami'] = cons.calc_va['vami']
+    data['quantmi'] = cons.calc_va['quantmi']
+    """
+    data['form'] = form
+    return render(request, 'moduloof/orc_adesivo.html', data)
+
+
 def cons_ocfilme(request, pk):
     data = {}
     cons = Orcamento_filme.objects.get(pk=pk)
@@ -346,6 +404,25 @@ def cons_ocfilme(request, pk):
     data['form'] = form
     return render(request, 'moduloof/ocfilme.html', data)
 
+"""
+data['valor_a'] = calc_va['resa']
+data['valor_b'] = calc_va['resb']
+data['valor_c'] = calc_va['resc']
+
+data['total_a'] = round(calc_va['resa'] * calc_va['quanta'], 4)
+data['total_b'] = round(calc_va['resb'] * calc_va['quantb'], 4)
+data['total_c'] = round(calc_va['resc'] * calc_va['quantc'], 4)
+data['quanta'] = calc_va['quanta']
+data['quantb'] = calc_va['quantb']
+data['quantc'] = calc_va['quantc']
+data['vaa'] = calc_va['vaa']
+data['vab'] = calc_va['vab']
+data['vac'] = calc_va['vac']
+
+data['vami'] = calc_va['vami']
+data['quantmi'] = calc_va['quantmi']
+
+"""
 
 """
 def cons_ocfilme(request, pk):

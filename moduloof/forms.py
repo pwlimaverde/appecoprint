@@ -1,5 +1,12 @@
 from django.forms import ModelForm
-from .models import Orcamento_adesivo, Orcamento_filme
+from .models import Orcamento_adesivo, Orcamento_filme, Orc_adesivo
+
+
+class Orc_adesivoForm(ModelForm):
+    class Meta:
+        model = Orc_adesivo
+        fields = '__all__'
+
 
 class OcadesivoForm(ModelForm):
     class Meta:
