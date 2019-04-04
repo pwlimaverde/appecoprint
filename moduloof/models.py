@@ -187,7 +187,8 @@ class Orc_adesivo(models.Model, calculo):
     quantidade = models.DecimalField(max_digits=7, decimal_places=0, blank=False, null=False)
 
 
-    def vaa(self):
+    def calc_vaa(self):
+        vaa = {}
         # varbd
         comp = self.comp
         larg = self.larg
@@ -195,23 +196,66 @@ class Orc_adesivo(models.Model, calculo):
         va = float(self.material.valor_de_venda)
         quant = float(self.quantidade)
 
-        # geral calc
-        area = calculo.calcarea(self, comp, larg)
+        area = calculo.calcarea(
+            self,
+            comp,
+            larg
+        )
 
         # vaa calc
-        mqa = calculo.calc_mq(self, larg, comp, va, quant)
-        dva['quant'] = quant
+        mqa = calculo.calc_mq(
+            self,
+            larg,
+            comp,
+            va,
+            quant
+        )
         mqq = mqa['mq']
-        vaa = calculo.calculova(self, mqq, va)
-        dva['vaa'] = calculo.calculoaca(self, vaa, inc)
-        return dva['vaa']
 
-    def resa(self, vaa):
+        bvaa = calculo.calculova(
+            self,
+            mqq,
+            va
+        )
+
+        vaa['vaa'] = calculo.calculoaca(
+            self,
+            bvaa,
+            inc
+        )
+
+        vaa['resa'] = float(round((area * vaa['vaa']), 4))
+        vaa['quanta'] = mqa['quant']
+        vaa['quantmi'] = mqa['quantmi']
+
+        return vaa
+
+    def vaa(self):
+        valor = self.calc_vaa()
+        return valor['vaa']
+
+    def resa(self):
+        valor = self.calc_vaa()
+        return valor['resa']
+
+    def total_a(self):
+        valor = self.calc_vaa()
+        resa = valor['resa']
+        quanta = valor['quanta']
+        return round(resa * quanta, 4)
+
+    def quanta(self):
+        valor = self.calc_vaa()
+        return valor['quanta']
+
+
+
+    def resat(self, vaa):
         area = area
         dva['resa'] = float(round((area * vaa), 4))
         dva['quantmi'] = mqa['quantmi']
         dva['quanta'] = mqa['quant']
-
+    """
         # vami calc
         quantmi = mqa['quantmi']
         mqmi = calculo.calc_mq(self, larg, comp, va, quantmi)
@@ -252,7 +296,7 @@ class Orc_adesivo(models.Model, calculo):
         dva['quantc'] = mqc['quant']
 
         return dva
-
+    """
     def __str__(self):
         return self.cliente.nome + ' - ' + self.servico
 

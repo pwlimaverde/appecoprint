@@ -264,27 +264,23 @@ def cons_orc_adesivo(request, pk):
         form.save()
         return redirect('url_cons_orc_adesivo', cons.id)
 
-    teste = cons.vaa
-
-    data['valor_a'] = teste
-
-
-
+    data['vaa'] = cons.vaa
+    data['valor_a'] = cons.resa
+    data['total_a'] = cons.total_a
+    data['quanta'] = cons.quanta
 
     """
+    data['vab'] = cons.calc_va['vab']
     data['valor_b'] = cons.va['resb']
-    data['valor_c'] = cons.va['resc']
-    
-    data['total_a'] = round(cons.calc_va['resa'] * cons.calc_va['quanta'], 4)
     data['total_b'] = round(cons.calc_va['resb'] * cons.calc_va['quantb'], 4)
+    
+    data['vac'] = cons.calc_va['vac']
+    data['valor_c'] = cons.va['resc']
     data['total_c'] = round(cons.calc_va['resc'] * cons.calc_va['quantc'], 4)
-    data['quanta'] = cons.calc_va['quanta']
+    
     data['quantb'] = cons.calc_va['quantb']
     data['quantc'] = cons.calc_va['quantc']
-    data['vaa'] = cons.calc_va['vaa']
-    data['vab'] = cons.calc_va['vab']
-    data['vac'] = cons.calc_va['vac']
-
+    
     data['vami'] = cons.calc_va['vami']
     data['quantmi'] = cons.calc_va['quantmi']
     """
