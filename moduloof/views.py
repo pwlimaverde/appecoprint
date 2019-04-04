@@ -264,6 +264,7 @@ def cons_orc_adesivo(request, pk):
         form.save()
         return redirect('url_cons_orc_adesivo', cons.id)
 
+
     data['vaa'] = cons.vaa
     data['valor_a'] = cons.resa
     data['total_a'] = cons.total_a
@@ -281,8 +282,8 @@ def cons_orc_adesivo(request, pk):
     data['quantb'] = cons.calc_va['quantb']
     data['quantc'] = cons.calc_va['quantc']
     
-    data['vami'] = cons.calc_va['vami']
-    data['quantmi'] = cons.calc_va['quantmi']
+    
+    
     """
     data['form'] = form
     return render(request, 'moduloof/orc_adesivo.html', data)

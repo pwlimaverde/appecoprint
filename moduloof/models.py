@@ -36,18 +36,26 @@ class calculo(object):
         mqg = float(mqg)
         vg = float(vg)
         mi = float(7)
-        a = float(5)
-        b = float(3)
-        c = float(2)
-        d = float(1)
-        e = float(0)
-        ma = float(80)
-        mb = float(100)
-        mc = float(200)
-        md = float(300)
-        me = float(350)
+        a = float(6)
+        b = float(5)
+        c = float(4)
+        d = float(3)
+        e = float(2)
+        f = float(1)
+        g = float(0)
+        ma = float(60)
+        mb = float(90)
+        mc = float(120)
+        md = float(150)
+        me = float(250)
+        mf = float(300)
+        mg = float(350)
 
         # Calculos Valores do metro
+        if mqg >= mg:
+            return float(vg + g)
+        if mqg >= mf:
+            return float(vg + f)
         if mqg >= me:
             return float(vg + e)
         elif mqg >= md:
@@ -101,7 +109,7 @@ class calculo(object):
         else:
             quanta = quant
 
-        dmq['quant'] = quanta
+        dmq['quanta'] = quanta
         dmq['quantmi'] = quantmi
         dmq['mq'] = int(area * quanta)
         return dmq
@@ -186,9 +194,11 @@ class Orc_adesivo(models.Model, calculo):
     larg = models.DecimalField(max_digits=3, decimal_places=0, blank=False, null=False)
     quantidade = models.DecimalField(max_digits=7, decimal_places=0, blank=False, null=False)
 
+    def __str__(self):
+        return self.cliente.nome + ' - ' + self.servico
 
-    def calc_vaa(self):
-        vaa = {}
+    def calc_va(self):
+        cva = {}
         # varbd
         comp = self.comp
         larg = self.larg
@@ -210,52 +220,100 @@ class Orc_adesivo(models.Model, calculo):
             va,
             quant
         )
+
         mqq = mqa['mq']
 
-        bvaa = calculo.calculova(
+        bcva = calculo.calculova(
             self,
             mqq,
             va
         )
 
-        vaa['vaa'] = calculo.calculoaca(
+        cva['vaa'] = calculo.calculoaca(
             self,
-            bvaa,
+            bcva,
             inc
         )
 
-        vaa['resa'] = float(round((area * vaa['vaa']), 4))
-        vaa['quanta'] = mqa['quant']
-        vaa['quantmi'] = mqa['quantmi']
+        cva['resa'] = float(round((area * cva['vaa']), 4))
+        cva['quanta'] = mqa['quanta']
+        cva['quantmi'] = mqa['quantmi']
 
-        return vaa
+        # vami calc
+        mqmi = calculo.calc_mq(
+            self,
+            larg,
+            comp,
+            va,
+            cva['quantmi']
+        )
+
+        mqq = mqmi['mq']
+
+        bcvami = calculo.calculova(
+            self,
+            mqq,
+            va
+        )
+        cva['vami'] = calculo.calculoaca(
+            self,
+            bcvami,
+            inc
+        )
+
+        cva['resmi'] = float(round((area * cva['vami']), 4))
+
+
+        return cva
+
+
+
+    def vami(self):
+        valor = self.calc_va()
+        return valor['vami']
+
+    def resmi(self):
+        valor = self.calc_va()
+        return valor['resmi']
+
+    def total_mi(self):
+        valor = self.calc_va()
+        resmi = valor['resmi']
+        quantmi = valor['quantmi']
+        return round(resmi * quantmi, 4)
+
+    def quantmi(self):
+        valor = self.calc_va()
+        return int(valor['quantmi'])
 
     def vaa(self):
-        valor = self.calc_vaa()
-        return valor['vaa']
+        valor = self.calc_va()
+        vaa = float(valor['vaa'])
+        vmi = float(valor['vami'])
+        if vaa >= vmi:
+            va = valor['vami']
+            return va
+        else:
+            va = valor['vaa']
+            return va
 
     def resa(self):
-        valor = self.calc_vaa()
+        valor = self.calc_va()
         return valor['resa']
 
     def total_a(self):
-        valor = self.calc_vaa()
+        valor = self.calc_va()
         resa = valor['resa']
         quanta = valor['quanta']
         return round(resa * quanta, 4)
 
     def quanta(self):
-        valor = self.calc_vaa()
-        return valor['quanta']
+        valor = self.calc_va()
+        return int(valor['quanta'])
 
 
 
-    def resat(self, vaa):
-        area = area
-        dva['resa'] = float(round((area * vaa), 4))
-        dva['quantmi'] = mqa['quantmi']
-        dva['quanta'] = mqa['quant']
-    """
+"""
         # vami calc
         quantmi = mqa['quantmi']
         mqmi = calculo.calc_mq(self, larg, comp, va, quantmi)
@@ -297,8 +355,6 @@ class Orc_adesivo(models.Model, calculo):
 
         return dva
     """
-    def __str__(self):
-        return self.cliente.nome + ' - ' + self.servico
 
 
 class Orcamento_adesivo(models.Model):

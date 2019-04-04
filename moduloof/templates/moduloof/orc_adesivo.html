@@ -11,7 +11,7 @@
 
     #form{
     width: 400px;
-    height: 1000px;
+    height: 710px;
     }
     </style>
 </head>
@@ -61,20 +61,18 @@
   <button type="submit" class="btn btn-primary">Salvar</button>
 
     <a href="{% url 'url_ladesivo' %}">Listagem</a> - <a href="{% url 'url_home' %}">Inicio</a>
+    </div>
+    </form>
     <br>
-    <h5>Quantidade Mínima: {{ quantmi }}</h5>
-    <br>
-    {{ valor_a }}
-    <br><br>
-    <br>
+    <h5>Quantidade Mínima: {{ quanta }}</h5>
     <h2>Valores:</h2>
-    <h4>Quantidade: {{ quanta }}</h4>
-        Valor do m²: {{ vaa }}<br>
-        Valor unitário: {{ valor_a }} R$
-    <br>
-        Total: {{ total_a }} R$
-    <br>
-    <br>
+            <h4>Quantidade: {{ quanta }}</h4>
+            Valor do m²: {{ vaa }}<br>
+            Valor unitário: {{ valor_a }} R$
+            <br>
+            Total: {{ total_a }} R$
+            <br>
+            <br>
     <h4>Quantidade: {{ quantb }}</h4>
         Valor do m²: {{ vab }}<br>
         Valor unitário: {{ valor_b }} R$
@@ -90,8 +88,8 @@
     <br>
     <br>
     <br>
-    </form>
 
-</div>
+
+
 </body>
 </html>
