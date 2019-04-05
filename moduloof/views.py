@@ -257,7 +257,6 @@ def cons_ocadesivo(request, pk):
 
 def cons_orc_adesivo(request, pk):
     data = {}
-    teste = {}
     cons = Orc_adesivo.objects.get(pk=pk)
     form = Orc_adesivoForm(request.POST or None, instance=cons)
     if form.is_valid():
@@ -266,26 +265,24 @@ def cons_orc_adesivo(request, pk):
 
 
     data['vaa'] = cons.vaa
-    data['valor_a'] = cons.resa
-    data['total_a'] = cons.total_a
-    data['quanta'] = cons.quanta
+    data['vab'] = cons.vab
+    data['vac'] = cons.vac
 
-    """
-    data['vab'] = cons.calc_va['vab']
-    data['valor_b'] = cons.va['resb']
-    data['total_b'] = round(cons.calc_va['resb'] * cons.calc_va['quantb'], 4)
-    
-    data['vac'] = cons.calc_va['vac']
-    data['valor_c'] = cons.va['resc']
-    data['total_c'] = round(cons.calc_va['resc'] * cons.calc_va['quantc'], 4)
-    
-    data['quantb'] = cons.calc_va['quantb']
-    data['quantc'] = cons.calc_va['quantc']
-    
-    
-    
-    """
+    data['valor_a'] = cons.resa
+    data['valor_b'] = cons.resb
+    data['valor_c'] = cons.resc
+
+    data['total_a'] = cons.total_a
+    data['total_b'] = cons.total_b
+    data['total_c'] = cons.total_c
+
+    data['quantmi'] = cons.quantmi
+    data['quanta'] = cons.quanta
+    data['quantb'] = cons.quantb
+    data['quantc'] = cons.quantc
+
     data['form'] = form
+
     return render(request, 'moduloof/orc_adesivo.html', data)
 
 

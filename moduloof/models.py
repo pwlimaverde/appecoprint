@@ -2,10 +2,6 @@ from tkinter import CASCADE
 
 from django.db import models
 
-#Variaveis globais
-global x, dva
-dva = {}
-x = 10
 
 # Metodos
 # Adesivio
@@ -109,9 +105,10 @@ class calculo(object):
         else:
             quanta = quant
 
-        dmq['quanta'] = quanta
+        dmq['quant'] = quanta
         dmq['quantmi'] = quantmi
         dmq['mq'] = int(area * quanta)
+
         return dmq
 
 
@@ -204,7 +201,7 @@ class Orc_adesivo(models.Model, calculo):
         larg = self.larg
         inc = float(self.acabamento.incremento)
         va = float(self.material.valor_de_venda)
-        quant = float(self.quantidade)
+        quant = int(self.quantidade)
 
         area = calculo.calcarea(
             self,
@@ -236,7 +233,7 @@ class Orc_adesivo(models.Model, calculo):
         )
 
         cva['resa'] = float(round((area * cva['vaa']), 4))
-        cva['quanta'] = mqa['quanta']
+        cva['quanta'] = mqa['quant']
         cva['quantmi'] = mqa['quantmi']
 
         # vami calc
@@ -263,10 +260,108 @@ class Orc_adesivo(models.Model, calculo):
 
         cva['resmi'] = float(round((area * cva['vami']), 4))
 
+        # vab calc
+        mqb = calculo.calc_mq(
+            self,
+            larg,
+            comp,
+            va,
+            quant * 2
+        )
+
+        mqq = mqb['mq']
+        vab = calculo.calculova(
+            self,
+            mqq,
+            va
+        )
+
+        if vab >= cva['vaa']:
+            mqb = calculo.calc_mq(
+                self,
+                larg,
+                comp,
+                va,
+                quant * 4
+            )
+            mqq = mqb['mq']
+
+            vab = calculo.calculova(
+                self,
+                mqq,
+                va
+            )
+
+            if vab >= cva['vaa']:
+                vab = round(calculo.calculodes(cva['vaa'], 3), 2)
+
+        bcvb = calculo.calculova(
+            self,
+            mqq,
+            va
+        )
+
+        cva['vab'] = calculo.calculoaca(
+            self,
+            bcvb,
+            inc
+        )
+
+        cva['resb'] = float(round((area * vab), 4))
+        cva['quantb'] = mqb['quant']
+
+        # vac calc
+        mqc = calculo.calc_mq(
+            self,
+            larg,
+            comp,
+            va,
+            quant * 3
+        )
+
+        mqq = mqc['mq']
+
+        vac = calculo.calculova(
+            self,
+            mqq,
+            va
+        )
+
+        if vac >= cva['vab']:
+            mqc = calculo.calc_mq(
+                self,
+                larg,
+                comp,
+                va,
+                quant * 8
+            )
+            mqq = mqc['mq']
+
+            cva['vac'] = calculo.calculova(
+                self,
+                mqq,
+                va
+            )
+
+            if vac >= cva['vab']:
+                vac = round(calculo.calculodes(self, cva['vab'], 3), 2)
+
+        bcvc = calculo.calculova(
+            self,
+            mqq,
+            va
+        )
+
+        cva['vac'] = calculo.calculoaca(
+            self,
+            bcvc,
+            inc
+        )
+
+        cva['resc'] = float(round((area * vac), 4))
+        cva['quantc'] = mqc['quant']
 
         return cva
-
-
 
     def vami(self):
         valor = self.calc_va()
@@ -284,7 +379,7 @@ class Orc_adesivo(models.Model, calculo):
 
     def quantmi(self):
         valor = self.calc_va()
-        return int(valor['quantmi'])
+        return float(valor['quantmi'])
 
     def vaa(self):
         valor = self.calc_va()
@@ -311,50 +406,41 @@ class Orc_adesivo(models.Model, calculo):
         valor = self.calc_va()
         return int(valor['quanta'])
 
+    def vab(self):
+        valor = self.calc_va()
+        return valor['vab']
 
+    def resb(self):
+        valor = self.calc_va()
+        return valor['resb']
 
-"""
-        # vami calc
-        quantmi = mqa['quantmi']
-        mqmi = calculo.calc_mq(self, larg, comp, va, quantmi)
-        mqq = mqmi['mq']
-        vami = calculo.calculova(self, mqq, va)
-        dva['vami'] = calculo.calculoaca(self, vami, inc)
+    def total_b(self):
+        valor = self.calc_va()
+        resb = valor['resb']
+        quantb = valor['quantb']
+        return round(resb * quantb, 4)
 
-        # vab calc
-        mqb = calculo.calc_mq(self, larg, comp, va, quant * 2)
-        mqq = mqb['mq']
-        vab = calculo.calculova(self, mqq, va)
+    def quantb(self):
+        valor = self.calc_va()
+        return int(valor['quantb'])
 
-        if vab >= vaa:
-            mqb = calculo.calc_mq(self, larg, comp, va, quant * 4)
-            mqq = mqb['mq']
-            vab = calculo.calculova(self, mqq, va)
-            if vab >= vaa:
-                vab = round(calculo.calculodes(vaa, 3), 2)
+    def vac(self):
+        valor = self.calc_va()
+        return valor['vac']
 
-        dva['vab'] = calculo.calculoaca(self, vab, inc)
-        dva['resb'] = float(round((area * vab), 4))
-        dva['quantb'] = mqb['quant']
+    def resc(self):
+        valor = self.calc_va()
+        return valor['resc']
 
-        # vac calc
-        mqc = calculo.calc_mq(self, larg, comp, va, quant * 3)
-        mqq = mqc['mq']
-        vac = calculo.calculova(self, mqq, va)
+    def total_c(self):
+        valor = self.calc_va()
+        resc = valor['resc']
+        quantc = valor['quantc']
+        return round(resc * quantc, 4)
 
-        if vac >= vab:
-            mqc = calculo.calc_mq(self, larg, comp, va, quant * 8)
-            mqc = mqc['mq']
-            vac = calculo.calculova(self, mqq, va)
-            if vac >= vab:
-                vac = round(calculo.calculodes(self, vab, 3), 2)
-
-        dva['vac'] = calculo.calculoaca(self, vac, inc)
-        dva['resc'] = float(round((area * vac), 4))
-        dva['quantc'] = mqc['quant']
-
-        return dva
-    """
+    def quantc(self):
+        valor = self.calc_va()
+        return int(valor['quantc'])
 
 
 class Orcamento_adesivo(models.Model):
