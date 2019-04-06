@@ -170,6 +170,105 @@ class Orcamento_filme(models.Model):
     def __str__(self):
         return self.cliente.nome + ' - ' + self.servico
 
+    def calc_vf(self):
+        # Constantes
+        mi = float(6)
+        vatmi = int(700)
+        conv = int(1000)
+
+        # Dados BD
+        larg = float(self.larg)
+        comp = float(self.comp)
+        rend = float(self.material.rendimento)
+        gram = float(self.material.gramatura)
+        va = float(self.material.valor_de_venda)
+        inc = self.acabamento.incremento
+        quant = int(self.quantidade)
+
+        # Calculos Base
+        area = float(round((comp / conv) * (larg / conv), 5))
+        kgmi = float(vatmi / (va + mi))
+        ar = float(area * rend)
+        quantmi = int(round(float((kgmi * float(conv)) / ar), 0))
+        quantmi = str(quantmi)
+
+        # Condicional de arredondamento
+        if len(quantmi) >= 7:
+            unidade = 1000000
+        elif len(quantmi) >= 6:
+            unidade = 100000
+        elif len(quantmi) >= 5:
+            unidade = 10000
+        elif len(quantmi) >= 4:
+            unidade = 1000
+        elif len(quantmi) >= 3:
+            unidade = 100
+        elif len(quantmi) >= 2:
+            unidade = 10
+        else:
+            unidade = 1
+
+        quantmi = (int(quantmi[0]) + 1) * unidade
+
+        if quant < quantmi:
+            quanta = quantmi
+        else:
+            quanta = int(quant * 1)
+
+        quantb = int(quanta * 2)
+        quantc = int(quanta * 3)
+        mqmi = float((area * rend * quantmi)/conv)
+        mqa = float((area * rend * quanta)/conv)
+        mqb = float((area * rend * quantb)/conv)
+        mqc = float((area * rend * quantc)/conv)
+
+        # Calculos Valores
+        vaa = calculovf(mqa, va, inc)
+        vab = calculovf(mqb, va, inc)
+        vac = calculovf(mqc, va, inc)
+        vami = calculovf(mqmi, va, inc)
+
+        if vab >= vaa:
+            quantb = quantb * 2
+            mqb = float((area * rend * quantb)/conv)
+            vab = calculova(mqb, va, inc)
+            if vab >= vaa:
+                vab = round(calculodes(vaa, 3), 2)
+
+        if vac >= vab:
+            quantc = quantb * 2
+            mqc = float((area * rend * quantc)/conv)
+            vac = calculova(mqc, va, inc)
+            if vac >= vab:
+                vac = round(calculodes(vab, 3), 2)
+
+
+        # Valor Unitário
+        resa = float(round(((mqa * vaa) / quanta), 4))
+        resb = float(round(((mqb * vab) / quantb), 4))
+        resc = float(round(((mqc * vac) / quantc), 4))
+
+    data['valor_a'] = resa
+    data['total_a'] = round(mqa * vaa, 2)
+    data['totalp_a'] = round(mqa, 2)
+    data['valor_b'] = resb
+    data['total_b'] = round(mqb * vab, 2)
+    data['totalp_b'] = round(mqb, 2)
+    data['valor_c'] = resc
+    data['total_c'] = round(mqc * vac, 2)
+    data['totalp_c'] = round(mqc, 2)
+    data['quanta'] = quanta
+    data['quantb'] = quantb
+    data['quantc'] = quantc
+    data['vaa'] = vaa
+    data['vab'] = vab
+    data['vac'] = vac
+    data['vami'] = vami
+    data['quantmi'] = quantmi
+    data['mqa'] = mqa
+    data['area'] = area
+    data['kgmi'] = kgmi
+    data['ar'] = ar
 
 class Adesivo(models.Model):
     descricao = models.CharField(max_length=200, blank=False, null=False)
