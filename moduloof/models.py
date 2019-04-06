@@ -1,5 +1,3 @@
-from tkinter import CASCADE
-
 from django.db import models
 
 
@@ -421,7 +419,7 @@ class Orcamento_filme(models.Model, calculo):
 
 class Adesivo(models.Model):
     descricao = models.CharField(max_length=200, blank=False, null=False)
-    tipo = models.ForeignKey(Tpadesivo, on_delete=CASCADE, blank=False, null=False)
+    tipo = models.ForeignKey(Tpadesivo, on_delete=models.CASCADE, blank=False, null=False)
     valor_de_venda = models.DecimalField(max_digits=5, decimal_places=2)
 
     def __str__(self):
