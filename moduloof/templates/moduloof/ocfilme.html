@@ -5,17 +5,93 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <title>Orçamento Filme</title>
+    <style type="text/css">
+    #form{
+    position: relative;
+    float: left;
+    top: 30px;
+    left: 20%;
+    width: 30%;
+    height: auto;
+    }
+
+    #valores{
+    position: relative;
+    float: left;
+    top: 0px;
+    left: 25%;
+    width: 30%;
+    height: auto;
+    }
+
+    #comand{
+    position: relative;
+    float: right;
+    top: 520px;
+    left: 15%;
+    width: 60%;
+    height: auto;
+    }
+
+    </style>
 </head>
 <body>
-    <form method="POST">
-    {% csrf_token %}
 
-    {{ form.as_p }}
+    <h2 align="center">Orçamentos Filme Flexo</h2>
 
-    <button type="submit">Salvar</button> - <a href="{% url 'url_lfilme' %}">Listagem</a> - <a href="{% url 'url_home' %}">Inicio</a>
-    <br>
+    {% load widget_tweaks %}
+
+<form method="post" novalidate>
+    <div id="form">
+  {% csrf_token %}
+
+  {% for hidden_field in form.hidden_fields %}
+    {{ hidden_field }}
+  {% endfor %}
+
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      {% for error in form.non_field_errors %}
+        {{ error }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% for field in form.visible_fields %}
+    <div class="form-group">
+      {{ field.label_tag }}
+
+      {% if form.is_bound %}
+        {% if field.errors %}
+          {% render_field field class="form-control is-invalid" %}
+          {% for error in field.errors %}
+            <div class="invalid-feedback">
+              {{ error }}
+            </div>
+          {% endfor %}
+        {% else %}
+          {% render_field field class="form-control is-valid" %}
+        {% endif %}
+      {% else %}
+        {% render_field field class="form-control" %}
+      {% endif %}
+
+      {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+      {% endif %}
+    </div>
+  {% endfor %}
+    </div>
+    <div id="comand">
+    <button type="submit" class="btn btn-primary">Salvar</button>
+
+    <a href="{% url 'url_lfilme' %}">Listagem</a> - <a href="{% url 'url_home' %}">Inicio</a>
+    </div>
+</form>
+
+    <div id="valores">
     <h5>Quantidade Mínima: {{ quantmi }}</h5>
     <h2>Valores:</h2>
     <h4>Quantidade: {{ quanta }}</h4>
@@ -43,6 +119,6 @@
     <br>
     <br>
     <br>
-    </form>
+    </div>
 </body>
 </html>
