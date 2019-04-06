@@ -112,7 +112,7 @@ class calculo(object):
         return dmq
 
 
-# classes
+# classes Models
 class Cliente(models.Model):
     nome = models.CharField(max_length=200, blank=False, null=False)
     responsavel = models.CharField(max_length=200, blank=False, null=False)
@@ -180,7 +180,7 @@ class Adesivo(models.Model):
         return self.descricao
 
 
-class Orc_adesivo(models.Model, calculo):
+class Orcamento_adesivo(models.Model, calculo):
     data_criacao = models.DateTimeField(auto_now_add=True)
     data = models.DateTimeField()
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=False, null=False)
@@ -457,17 +457,3 @@ class Orc_adesivo(models.Model, calculo):
         valor = self.calc_va()
         return int(valor['quantc'])
 
-
-class Orcamento_adesivo(models.Model):
-    data_criacao = models.DateTimeField(auto_now_add=True)
-    data = models.DateTimeField()
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=False, null=False)
-    servico = models.CharField(max_length=400, blank=False, null=False)
-    material = models.ForeignKey(Adesivo, on_delete=models.CASCADE, blank=False, null=False)
-    acabamento = models.ForeignKey(Acabamento, on_delete=models.CASCADE, blank=False, null=False)
-    comp = models.DecimalField(max_digits=3, decimal_places=0, blank=False, null=False)
-    larg = models.DecimalField(max_digits=3, decimal_places=0, blank=False, null=False)
-    quantidade = models.DecimalField(max_digits=7, decimal_places=0, blank=False, null=False)
-
-    def __str__(self):
-        return self.cliente.nome + ' - ' + self.servico

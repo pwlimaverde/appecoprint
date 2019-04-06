@@ -8,7 +8,6 @@ from .models import (
     Adesivo,
     Orcamento_filme,
     Orcamento_adesivo,
-    Orc_adesivo,
 )
 
 admin.site.register(Cliente)
@@ -19,4 +18,3 @@ admin.site.register(Filme_bopp)
 admin.site.register(Adesivo)
 admin.site.register(Orcamento_filme)
 admin.site.register(Orcamento_adesivo)
-admin.site.register(Orc_adesivo)
