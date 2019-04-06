@@ -4,7 +4,6 @@ from django.db import models
 
 
 # Metodos
-# Adesivio
 class calculo(object):
 
     def calcarea(self, comp, larg):
@@ -111,6 +110,36 @@ class calculo(object):
 
         return dmq
 
+    def calculovf(self, mqg, vg):
+        # Constantes
+        mqg = mqg
+        vg = vg
+        mi = float(6)
+        a = float(4)
+        b = float(3)
+        c = float(2)
+        d = float(1)
+        e = float(0)
+        ma = float(20)
+        mb = float(40)
+        mc = float(60)
+        md = float(100)
+        me = float(150)
+
+        # Calculos Valores do metro
+        if mqg >= me:
+            return float(vg + e)
+        elif mqg >= md:
+            return float(vg + d)
+        elif mqg >= mc:
+            return float(vg + c)
+        elif mqg >= mb:
+            return float(vg + b)
+        elif mqg >= ma:
+            return float(vg + a)
+        else:
+            return float(vg + mi)
+
 
 # classes Models
 class Cliente(models.Model):
@@ -156,7 +185,7 @@ class Acabamento(models.Model):
         return self.tipo
 
 
-class Orcamento_filme(models.Model):
+class Orcamento_filme(models.Model, calculo):
     data_criacao = models.DateTimeField(auto_now_add=True)
     data = models.DateTimeField()
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=False, null=False)
@@ -171,6 +200,7 @@ class Orcamento_filme(models.Model):
         return self.cliente.nome + ' - ' + self.servico
 
     def calc_vf(self):
+        cvf = {}
         # Constantes
         mi = float(6)
         vatmi = int(700)
@@ -180,13 +210,12 @@ class Orcamento_filme(models.Model):
         larg = float(self.larg)
         comp = float(self.comp)
         rend = float(self.material.rendimento)
-        gram = float(self.material.gramatura)
         va = float(self.material.valor_de_venda)
         inc = self.acabamento.incremento
         quant = int(self.quantidade)
 
         # Calculos Base
-        area = float(round((comp / conv) * (larg / conv), 5))
+        area = calculo.calcarea(self, comp, larg)
         kgmi = float(vatmi / (va + mi))
         ar = float(area * rend)
         quantmi = int(round(float((kgmi * float(conv)) / ar), 0))
@@ -223,24 +252,44 @@ class Orcamento_filme(models.Model):
         mqc = float((area * rend * quantc)/conv)
 
         # Calculos Valores
-        vaa = calculovf(mqa, va, inc)
-        vab = calculovf(mqb, va, inc)
-        vac = calculovf(mqc, va, inc)
-        vami = calculovf(mqmi, va, inc)
+        vaa = calculo.calculovf(self, mqa, va)
+        vaa = calculo.calculoaca(
+            self,
+            vaa,
+            inc
+        )
+        vab = calculo.calculovf(self, mqb, va)
+        vab = calculo.calculoaca(
+            self,
+            vab,
+            inc
+        )
+        vac = calculo.calculovf(self, mqc, va)
+        vac = calculo.calculoaca(
+            self,
+            vac,
+            inc
+        )
+        vami = calculo.calculovf(self, mqmi, va)
+        vami = calculo.calculoaca(
+            self,
+            vami,
+            inc
+        )
 
         if vab >= vaa:
             quantb = quantb * 2
             mqb = float((area * rend * quantb)/conv)
-            vab = calculova(mqb, va, inc)
+            vab = calculo.calculova(self, mqb, va)
             if vab >= vaa:
-                vab = round(calculodes(vaa, 3), 2)
+                vab = round(calculo.calculodes(vaa, 3), 2)
 
         if vac >= vab:
             quantc = quantb * 2
             mqc = float((area * rend * quantc)/conv)
-            vac = calculova(mqc, va, inc)
+            vac = calculo.calculova(self, mqc, va)
             if vac >= vab:
-                vac = round(calculodes(vab, 3), 2)
+                vac = round(calculo.calculodes(self, vab, 3), 2)
 
 
         # Valor Unitário
@@ -248,27 +297,127 @@ class Orcamento_filme(models.Model):
         resb = float(round(((mqb * vab) / quantb), 4))
         resc = float(round(((mqc * vac) / quantc), 4))
 
-    data['valor_a'] = resa
-    data['total_a'] = round(mqa * vaa, 2)
-    data['totalp_a'] = round(mqa, 2)
-    data['valor_b'] = resb
-    data['total_b'] = round(mqb * vab, 2)
-    data['totalp_b'] = round(mqb, 2)
-    data['valor_c'] = resc
-    data['total_c'] = round(mqc * vac, 2)
-    data['totalp_c'] = round(mqc, 2)
-    data['quanta'] = quanta
-    data['quantb'] = quantb
-    data['quantc'] = quantc
-    data['vaa'] = vaa
-    data['vab'] = vab
-    data['vac'] = vac
-    data['vami'] = vami
-    data['quantmi'] = quantmi
-    data['mqa'] = mqa
-    data['area'] = area
-    data['kgmi'] = kgmi
-    data['ar'] = ar
+        cvf['kgmi'] = kgmi
+        cvf['vami'] = vami
+        cvf['quantmi'] = quantmi
+        cvf['area'] = area
+        cvf['ar'] = ar
+        cvf['mqa'] = mqa
+
+        cvf['vaa'] = vaa
+        cvf['quanta'] = quanta
+        cvf['valor_a'] = resa
+        cvf['total_a'] = round(mqa * vaa, 2)
+        cvf['totalp_a'] = round(mqa, 2)
+
+        cvf['vab'] = vab
+        cvf['quantb'] = quantb
+        cvf['valor_b'] = resb
+        cvf['total_b'] = round(mqb * vab, 2)
+        cvf['totalp_b'] = round(mqb, 2)
+
+        cvf['vac'] = vac
+        cvf['quantc'] = quantc
+        cvf['valor_c'] = resc
+        cvf['total_c'] = round(mqc * vac, 2)
+        cvf['totalp_c'] = round(mqc, 2)
+
+        cvf['kgmi'] = kgmi
+        cvf['vami'] = vami
+        cvf['quantmi'] = quantmi
+        cvf['area'] = area
+        cvf['ar'] = ar
+        cvf['mqa'] = mqa
+
+        return cvf
+
+    def kgmi(self):
+        valor_mi = self.calc_vf()
+        return valor_mi['kgmi']
+
+    def vami(self):
+        valor_mi = self.calc_vf()
+        return valor_mi['vami']
+
+    def quantmi(self):
+        valor_mi = self.calc_vf()
+        return valor_mi['quantmi']
+
+    def area(self):
+        valor_a = self.calc_vf()
+        return valor_a['area']
+
+    def ar(self):
+        valor_a = self.calc_vf()
+        return valor_a['ar']
+
+    def mqa(self):
+        valor_a = self.calc_vf()
+        return valor_a['mqa']
+
+
+    def vaa(self):
+        valor_a = self.calc_vf()
+        return valor_a['vaa']
+
+    def quanta(self):
+        valor_a = self.calc_vf()
+        return valor_a['quanta']
+
+    def valor_a(self):
+        valor_a = self.calc_vf()
+        return valor_a['valor_a']
+
+    def total_a(self):
+        valor_a = self.calc_vf()
+        return valor_a['total_a']
+
+    def totalp_a(self):
+        valor_a = self.calc_vf()
+        return valor_a['totalp_a']
+
+
+    def vab(self):
+        valor_b = self.calc_vf()
+        return valor_b['vab']
+
+    def quantb(self):
+        valor_b = self.calc_vf()
+        return valor_b['quantb']
+
+    def valor_b(self):
+        valor_b = self.calc_vf()
+        return valor_b['valor_b']
+
+    def total_b(self):
+        valor_b = self.calc_vf()
+        return valor_b['total_b']
+
+    def totalp_b(self):
+        valor_b = self.calc_vf()
+        return valor_b['totalp_b']
+
+
+    def vac(self):
+        valor_c = self.calc_vf()
+        return valor_c['vac']
+
+    def quantc(self):
+        valor_c = self.calc_vf()
+        return valor_c['quantc']
+
+    def valor_c(self):
+        valor_c = self.calc_vf()
+        return valor_c['valor_c']
+
+    def total_c(self):
+        valor_c = self.calc_vf()
+        return valor_c['total_c']
+
+    def totalp_c(self):
+        valor_c = self.calc_vf()
+        return valor_c['totalp_c']
+
 
 class Adesivo(models.Model):
     descricao = models.CharField(max_length=200, blank=False, null=False)
@@ -555,4 +704,3 @@ class Orcamento_adesivo(models.Model, calculo):
     def quantc(self):
         valor = self.calc_va()
         return int(valor['quantc'])
-

@@ -88,27 +88,31 @@ def cons_ocfilme(request, pk):
         form.save()
         return redirect('url_cons_ocfilme', cons.id)
 
-    data['valor_a'] = resa
-    data['total_a'] = round(mqa * vaa, 2)
-    data['totalp_a'] = round(mqa, 2)
-    data['valor_b'] = resb
-    data['total_b'] = round(mqb * vab, 2)
-    data['totalp_b'] = round(mqb, 2)
-    data['valor_c'] = resc
-    data['total_c'] = round(mqc * vac, 2)
-    data['totalp_c'] = round(mqc, 2)
-    data['quanta'] = quanta
-    data['quantb'] = quantb
-    data['quantc'] = quantc
-    data['vaa'] = vaa
-    data['vab'] = vab
-    data['vac'] = vac
-    data['vami'] = vami
-    data['quantmi'] = quantmi
-    data['mqa'] = mqa
-    data['area'] = area
-    data['kgmi'] = kgmi
-    data['ar'] = ar
+    data['mqa'] = cons.mqa
+    data['area'] = cons.area
+    data['ar'] = cons.ar
+
+    data['vami'] = cons.vami
+    data['kgmi'] = cons.kgmi
+    data['quantmi'] = cons.quantmi
+
+    data['vaa'] = cons.vaa
+    data['quanta'] = cons.quanta
+    data['valor_a'] = cons.valor_a
+    data['total_a'] = cons.total_a
+    data['totalp_a'] = cons.totalp_a
+
+    data['vab'] = cons.vab
+    data['quantb'] = cons.quantb
+    data['valor_b'] = cons.valor_b
+    data['total_b'] = cons.total_b
+    data['totalp_b'] = cons.totalp_b
+
+    data['vac'] = cons.vac
+    data['valor_c'] = cons.valor_c
+    data['quantc'] = cons.quantc
+    data['total_c'] = cons.total_c
+    data['totalp_c'] = cons.totalp_c
 
     data['form'] = form
     return render(request, 'moduloof/ocfilme.html', data)
