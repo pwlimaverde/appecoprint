@@ -270,20 +270,25 @@ def cons_orc_adesivo(request, pk):
     data['total_a'] = cons.total_a
     data['quanta'] = cons.quanta
 
-    #data['vab'] = cons.vab
+    data['vab'] = cons.vab
+    data['mqb'] = cons.mqb
+    data['valor_b'] = cons.resb
+    data['total_b'] = cons.total_b
+    data['quantb'] = cons.quantb
+
     #data['vac'] = cons.vac
 
 
-    #data['valor_b'] = cons.resb
+
     #data['valor_c'] = cons.resc
 
 
-    #data['total_b'] = cons.total_b
+
     #data['total_c'] = cons.total_c
 
     data['quantmi'] = cons.quantmi
 
-    #data['quantb'] = cons.quantb
+
     #data['quantc'] = cons.quantc
 
     data['form'] = form

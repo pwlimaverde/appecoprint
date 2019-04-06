@@ -246,11 +246,9 @@ class Orc_adesivo(models.Model, calculo):
             cva['quantmi']
         )
 
-        mqq = mqmi['mq']
-
         bcvami = calculo.calculova(
             self,
-            mqq,
+            mqmi['mq'],
             va
         )
         cva['vami'] = calculo.calculoaca(
@@ -259,8 +257,9 @@ class Orc_adesivo(models.Model, calculo):
             inc
         )
 
+        cva['mqmi'] = mqmi['mq']
         cva['resmi'] = float(round((area * cva['vami']), 4))
-        """
+
         # vab calc
         mqb = calculo.calc_mq(
             self,
@@ -270,10 +269,9 @@ class Orc_adesivo(models.Model, calculo):
             quant * 2
         )
 
-        mqq = mqb['mq']
         vab = calculo.calculova(
             self,
-            mqq,
+            mqb['mq'],
             va
         )
 
@@ -285,11 +283,10 @@ class Orc_adesivo(models.Model, calculo):
                 va,
                 quant * 4
             )
-            mqq = mqb['mq']
 
             vab = calculo.calculova(
                 self,
-                mqq,
+                mqb['mq'],
                 va
             )
 
@@ -298,7 +295,7 @@ class Orc_adesivo(models.Model, calculo):
 
         bcvb = calculo.calculova(
             self,
-            mqq,
+            mqb['mq'],
             va
         )
 
@@ -308,9 +305,10 @@ class Orc_adesivo(models.Model, calculo):
             inc
         )
 
+        cva['mqb'] = mqb['mq']
         cva['resb'] = float(round((area * vab), 4))
         cva['quantb'] = mqb['quant']
-
+        """
         # vac calc
         mqc = calculo.calc_mq(
             self,
@@ -368,9 +366,9 @@ class Orc_adesivo(models.Model, calculo):
         valor = self.calc_va()
         return valor['vami']
 
-    def mqa(self):
+    def mqmi(self):
         valor = self.calc_va()
-        return valor['mqa']
+        return valor['mqmi']
 
     def resmi(self):
         valor = self.calc_va()
@@ -397,6 +395,10 @@ class Orc_adesivo(models.Model, calculo):
             va = valor['vaa']
             return va
 
+    def mqa(self):
+        valor = self.calc_va()
+        return valor['mqa']
+
     def resa(self):
         valor = self.calc_va()
         return valor['resa']
@@ -411,10 +413,13 @@ class Orc_adesivo(models.Model, calculo):
         valor = self.calc_va()
         return int(valor['quanta'])
 
-    """
     def vab(self):
         valor = self.calc_va()
         return valor['vab']
+
+    def mqb(self):
+        valor = self.calc_va()
+        return valor['mqb']
 
     def resb(self):
         valor = self.calc_va()
@@ -429,6 +434,8 @@ class Orc_adesivo(models.Model, calculo):
     def quantb(self):
         valor = self.calc_va()
         return int(valor['quantb'])
+
+    """
 
     def vac(self):
         valor = self.calc_va()
