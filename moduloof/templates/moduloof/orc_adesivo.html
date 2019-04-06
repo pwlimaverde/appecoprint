@@ -17,57 +17,58 @@
 </head>
 <body>
            {% load widget_tweaks %}
-<div id="form">
-<form method="post" novalidate>
-  {% csrf_token %}
+           <div id="form">
+           <form method="post" novalidate>
+               {% csrf_token %}
 
-  {% for hidden_field in form.hidden_fields %}
-    {{ hidden_field }}
-  {% endfor %}
+               {% for hidden_field in form.hidden_fields %}
+               {{ hidden_field }}
+               {% endfor %}
 
-  {% if form.non_field_errors %}
-    <div class="alert alert-danger" role="alert">
-      {% for error in form.non_field_errors %}
-        {{ error }}
-      {% endfor %}
-    </div>
-  {% endif %}
+               {% if form.non_field_errors %}
+               <div class="alert alert-danger" role="alert">
+                   {% for error in form.non_field_errors %}
+                   {{ error }}
+                   {% endfor %}
+               </div>
+               {% endif %}
 
-  {% for field in form.visible_fields %}
-    <div class="form-group">
-      {{ field.label_tag }}
+               {% for field in form.visible_fields %}
+               <div class="form-group">
+                   {{ field.label_tag }}
 
-      {% if form.is_bound %}
-        {% if field.errors %}
-          {% render_field field class="form-control is-invalid" %}
-          {% for error in field.errors %}
-            <div class="invalid-feedback">
-              {{ error }}
-            </div>
-          {% endfor %}
-        {% else %}
-          {% render_field field class="form-control is-valid" %}
-        {% endif %}
-      {% else %}
-        {% render_field field class="form-control" %}
-      {% endif %}
+                   {% if form.is_bound %}
+                   {% if field.errors %}
+                   {% render_field field class="form-control is-invalid" %}
+                   {% for error in field.errors %}
+                   <div class="invalid-feedback">
+                       {{ error }}
+                   </div>
+                   {% endfor %}
+                   {% else %}
+                   {% render_field field class="form-control is-valid" %}
+                   {% endif %}
+                   {% else %}
+                   {% render_field field class="form-control" %}
+                   {% endif %}
 
-      {% if field.help_text %}
-        <small class="form-text text-muted">{{ field.help_text }}</small>
-      {% endif %}
-    </div>
-  {% endfor %}
+                   {% if field.help_text %}
+                   <small class="form-text text-muted">{{ field.help_text }}</small>
+                   {% endif %}
+               </div>
+               {% endfor %}
 
-  <button type="submit" class="btn btn-primary">Salvar</button>
+               <button type="submit" class="btn btn-primary">Salvar</button>
 
-    <a href="{% url 'url_ladesivo' %}">Listagem</a> - <a href="{% url 'url_home' %}">Inicio</a>
-    </div>
+               <a href="{% url 'url_ladesivo' %}">Listagem</a> - <a href="{% url 'url_home' %}">Inicio</a>
 
-    </form>
+           </form>
+           </div>
     <br>
     <h5>Quantidade Mínima: {{ quantmi }}</h5>
     <h2>Valores:</h2>
             <h4>Quantidade: {{ quanta }}</h4>
+            Quant. em m²: {{ mqa }}<br>
             Valor do m²: {{ vaa }}<br>
             Valor unitário: {{ valor_a }} R$
             <br>

@@ -39,8 +39,8 @@ class calculo(object):
         e = float(2)
         f = float(1)
         g = float(0)
-        ma = float(60)
-        mb = float(90)
+        ma = float(70)
+        mb = float(95)
         mc = float(120)
         md = float(150)
         me = float(250)
@@ -218,11 +218,11 @@ class Orc_adesivo(models.Model, calculo):
             quant
         )
 
-        mqq = mqa['mq']
+        #mqq = mqa['mq']
 
         bcva = calculo.calculova(
             self,
-            mqq,
+            mqa['mq'],
             va
         )
 
@@ -232,9 +232,10 @@ class Orc_adesivo(models.Model, calculo):
             inc
         )
 
+        cva['mqa'] = mqa['mq']
         cva['resa'] = float(round((area * cva['vaa']), 4))
         cva['quanta'] = mqa['quant']
-        cva['quantmi'] = mqa['quantmi']
+        cva['quantmi'] = float(mqa['quantmi'])
 
         # vami calc
         mqmi = calculo.calc_mq(
@@ -259,7 +260,7 @@ class Orc_adesivo(models.Model, calculo):
         )
 
         cva['resmi'] = float(round((area * cva['vami']), 4))
-
+        """
         # vab calc
         mqb = calculo.calc_mq(
             self,
@@ -360,12 +361,16 @@ class Orc_adesivo(models.Model, calculo):
 
         cva['resc'] = float(round((area * vac), 4))
         cva['quantc'] = mqc['quant']
-
+        """
         return cva
 
     def vami(self):
         valor = self.calc_va()
         return valor['vami']
+
+    def mqa(self):
+        valor = self.calc_va()
+        return valor['mqa']
 
     def resmi(self):
         valor = self.calc_va()
@@ -406,6 +411,7 @@ class Orc_adesivo(models.Model, calculo):
         valor = self.calc_va()
         return int(valor['quanta'])
 
+    """
     def vab(self):
         valor = self.calc_va()
         return valor['vab']
@@ -442,7 +448,7 @@ class Orc_adesivo(models.Model, calculo):
         valor = self.calc_va()
         return int(valor['quantc'])
 
-
+    """
 class Orcamento_adesivo(models.Model):
     data_criacao = models.DateTimeField(auto_now_add=True)
     data = models.DateTimeField()
