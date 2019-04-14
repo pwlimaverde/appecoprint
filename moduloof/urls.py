@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import (
-    home,
     locadesivo,
     novo_ocadesivo,
     cons_ocadesivo,
@@ -10,9 +9,6 @@ from .views import (
 )
 
 urlpatterns = [
-    path('', home,
-         name='url_home'),
-
     path('moduloof/locadesivo/', locadesivo,
          name='url_ladesivo'),
     path('moduloof/novoad/', novo_ocadesivo,

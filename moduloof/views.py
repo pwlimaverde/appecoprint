@@ -1,13 +1,11 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Orcamento_adesivo, Orcamento_filme
 from .forms import OcadesivoForm, OcfilmeForm
 
 
 # Views
-def home(request):
-    return render(request, 'moduloof/home.html')
-
-
+@login_required
 def novo_ocadesivo(request):
     data = {}
     form = OcadesivoForm(request.POST or None)
@@ -20,6 +18,7 @@ def novo_ocadesivo(request):
     return render(request, 'moduloof/ocadesivo.html', data)
 
 
+@login_required
 def locadesivo(request):
     data = {}
     listagem = Orcamento_adesivo.objects.all()
@@ -27,6 +26,7 @@ def locadesivo(request):
     return render(request, 'moduloof/locadesivo.html', data)
 
 
+@login_required
 def cons_ocadesivo(request, pk):
     data = {}
     cons = Orcamento_adesivo.objects.get(pk=pk)
@@ -60,6 +60,7 @@ def cons_ocadesivo(request, pk):
     return render(request, 'moduloof/ocadesivo.html', data)
 
 
+@login_required
 def novo_ocfilme(request):
     data = {}
     form = OcfilmeForm(request.POST or None)
@@ -72,6 +73,7 @@ def novo_ocfilme(request):
     return render(request, 'moduloof/ocfilme.html', data)
 
 
+@login_required
 def locfilme(request):
     data = {}
     listagem = Orcamento_filme.objects.all()
@@ -79,6 +81,7 @@ def locfilme(request):
     return render(request, 'moduloof/locfilme.html', data)
 
 
+@login_required
 def cons_ocfilme(request, pk):
     data = {}
     cons = Orcamento_filme.objects.get(pk=pk)
