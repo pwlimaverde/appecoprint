@@ -15,7 +15,7 @@ def novo_ocadesivo(request):
         return redirect('url_ladesivo')
 
     data['form'] = form
-    return render(request, 'moduloof/ocadesivo.html', data)
+    return render(request, 'moduloof/orcadesivo.html', data)
 
 
 @login_required
@@ -56,8 +56,9 @@ def cons_ocadesivo(request, pk):
 
     data['quantmi'] = cons.quantmi
 
+    data['cadastro'] = cons
     data['form'] = form
-    return render(request, 'moduloof/ocadesivo.html', data)
+    return render(request, 'moduloof/orcadesivo.html', data)
 
 
 @login_required

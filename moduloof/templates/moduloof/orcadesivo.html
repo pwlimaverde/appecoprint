@@ -1,5 +1,5 @@
 {% extends 'base_sistema.html' %}
-
+{% load bootstrap %}
 {% block head %}
     <title>Orçamento Adesivo Flexo</title>
 {% endblock %}
@@ -51,59 +51,53 @@
 {% endblock %}
 
 {% block main %}
-    {% load widget_tweaks %}
 
-    <h2 align="center">Orçamento Adesivo Flexo - {{ cadastro.cliente }}</h2>
+
 
 <div class="row">
-    <div class="col-sm-4">
-        <form method="post" novalidate>
+    <div class="col-sm-12">
+        <h2 align="center">Orçamento Adesivo Flexo - {{ cadastro.cliente }}</h2>
+    </div>
+    <div class="col-sm-5">
+        <form method="post">
         {% csrf_token %}
-
-            {% for hidden_field in form.hidden_fields %}
-            {{ hidden_field }}
-            {% endfor %}
-
-            {% if form.non_field_errors %}
-            <div class="alert alert-danger" role="alert">
-            {% for error in form.non_field_errors %}
-            {{ error }}
-            {% endfor %}
+            <div class="row">
+                <div class="col-sm-4">
+                   {{ form.data | bootstrap }}
+                </div>
+                <div class="col-sm-8">
+                   {{ form.cliente | bootstrap }}
+                </div>
             </div>
-            {% endif %}
-
-            {% for field in form.visible_fields %}
-            <div class="form-group">
-            {{ field.label_tag }}
-
-            {% if form.is_bound %}
-            {% if field.errors %}
-            {% render_field field class="form-control is-invalid" %}
-            {% for error in field.errors %}
-            <div class="invalid-feedback">
-            {{ error }}
+            <div class="row">
+                <div class="col-sm-12">
+                   {{ form.servico | bootstrap }}
+                </div>
             </div>
-            {% endfor %}
-            {% else %}
-            {% render_field field class="form-control is-valid" %}
-            {% endif %}
-            {% else %}
-            {% render_field field class="form-control" %}
-            {% endif %}
-
-            {% if field.help_text %}
-            <small class="form-text text-muted">{{ field.help_text }}</small>
-            {% endif %}
+            <div class="row">
+                <div class="col-sm-8">
+                   {{ form.material | bootstrap }}
+                </div>
+                <div class="col-sm-4">
+                   {{ form.acabamento | bootstrap }}
+                </div>
             </div>
-            {% endfor %}
-            <div id="comand">
-            <button type="submit" class="btn btn-primary">Salvar</button>
-
-            <a href="{% url 'url_ladesivo' %}">Listagem</a>
+            <div class="row">
+                <div class="col-sm-3">
+                   {{ form.comp | bootstrap }}
+                </div>
+                <div class="col-sm-3">
+                   {{ form.larg | bootstrap }}
+                </div>
+                <div class="col-sm-6">
+                   {{ form.quantidade | bootstrap }}
+                </div>
             </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Salvar</button>
         </form>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-7">
         <h5>Quantidade Mínima: {{ quantmi }}</h5>
 
         <h2>Valores:</h2>
