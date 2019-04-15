@@ -1,38 +1,89 @@
 {% extends 'base_sistema.html' %}
+{% load bootstrap %}
+{% block head %}
+    <title>Orçamentos Adesivo Flexo</title>
+{% endblock %}
+
+{% block menu %}
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+         <a class="navbar-brand">Sistema Ecoprint</a></li>
+     </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'url_home_website' %}">Home</a></li>
+        {% if user.is_authenticated %}
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Orçamentos Flexo<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="{% url 'url_ladesivo' %}">Orçamentos Adesivo</a></li>
+              <li><a href="{% url 'url_lfilme' %}">Orçamentos Filme</a></li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Orçamentos Flexo<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li class="disabled"><a href="{% url 'url_ladesivo' %}">Orçamentos Adesivo</a></li>
+              <li class="disabled"><a href="{% url 'url_lfilme' %}">Orçamentos Filme</a></li>
+            </ul>
+          </li>
+        {% endif %}
+        <li><a href="/admin">Cadastro</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-user"></span>  Olá {{ user }}</a></li>
+          <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        {% else %}
+          <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span>  Login</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
 
 {% block main %}
+<div class="row" align="center">
+    <div class="col-sm-12">
+        {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+        {% if next %}
+            {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+            {% else %}
+            <p>Please login to see this page.</p>
+            {% endif %}
+        {% endif %}
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
+        <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <table>
+        <tr>
+            <td>{{ form.username | bootstrap }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password | bootstrap }}</td>
+        </tr>
+        </table>
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
+        <input type="submit" class="btn btn-primary" value="login">
+        <input type="hidden" name="next" class="btn btn-primary" value="{{ next }}">
+        </form>
 
-<input type="submit" value="login">
-<input type="hidden" name="next" value="{{ next }}">
-</form>
+        {# Assumes you setup the password_reset view in your URLconf #}
+        <p><a href="{% url 'password_reset' %}">Perdeu a Senha?</a></p>
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-
+    </div>
+</div>
 {% endblock %}
