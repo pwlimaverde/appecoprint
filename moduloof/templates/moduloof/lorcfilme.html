@@ -26,7 +26,7 @@
     }
     </style>
     <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
-    <title>Orçamentos Adesivo Flexo</title>
+    <title>Orçamento Filme Flexo</title>
 {% endblock %}
 
 {% block menu %}
@@ -47,8 +47,8 @@
           <li class="dropdown active">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Orçamentos Flexo<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li class="active"><a href="{% url 'url_ladesivo' %}">Orçamentos Adesivo</a></li>
-              <li><a href="{% url 'url_lfilme' %}">Orçamentos Filme</a></li>
+              <li><a href="{% url 'url_ladesivo' %}">Orçamentos Adesivo</a></li>
+              <li class="active"><a href="{% url 'url_lfilme' %}">Orçamentos Filme</a></li>
             </ul>
           </li>
         {% else %}
@@ -98,8 +98,8 @@
                     <td>{{ valor.cliente }}</td>
                     <td>{{ valor.servico }} - {{ valor.comp }} x {{ valor.larg }} mm</td>
                     <td>{{ valor.quantidade }}</td>
-                    <td>R$ {{ valor.total_a }}0</td>
-                    <td><a href="{% url 'url_cons_ocadesivo' valor.id %}" class="btn btn-primary btn-sm">+</a></td>
+                    <td>R$ {{ valor.total_a }}</td>
+                    <td><a href="{% url 'url_cons_ocfilme' valor.id %}" class="btn btn-primary btn-sm">+</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -123,7 +123,7 @@
     </div>
     <div class="col-sm-4">
         <h3 align="center">Novo Orçamento Adesivo Flexo</h3>
-        <form method="post" action="{% url 'url_novo_ocadesivo' %}">
+        <form method="post" action="{% url 'url_novo_ocfilme' %}">
         {% csrf_token %}
             <div class="row">
                 <div class="col-sm-4">

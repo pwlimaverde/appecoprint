@@ -80,9 +80,11 @@ def novo_ocfilme(request):
 @login_required
 def locfilme(request):
     data = {}
+    form = OcfilmeForm()
     listagem = Orcamento_filme.objects.all()
     data['listagem'] = listagem
-    return render(request, 'moduloof/locfilme.html', data)
+    data['form'] = form
+    return render(request, 'moduloof/lorcfilme.html', data)
 
 
 @login_required
