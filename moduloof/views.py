@@ -21,9 +21,12 @@ def novo_ocadesivo(request):
 @login_required
 def locadesivo(request):
     data = {}
+    form = OcadesivoForm()
     listagem = Orcamento_adesivo.objects.all()
+
     data['listagem'] = listagem
-    return render(request, 'moduloof/locadesivo.html', data)
+    data['form'] = form
+    return render(request, 'moduloof/lorcadesivo.html', data)
 
 
 @login_required

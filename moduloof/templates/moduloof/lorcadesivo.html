@@ -1,0 +1,165 @@
+{% extends 'base_sistema.html' %}
+{% load bootstrap %}
+{% block head %}
+    <style>
+    #tabela {
+      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #tabela td, #tabela th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #tabela tr:nth-child(even){background-color: #f2f2f2;}
+
+    #tabela tr:hover {background-color: #ddd;}
+
+    #tabela th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #222222;
+      color: white;
+    }
+    </style>
+    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+    <title>Orçamentos Adesivo Flexo</title>
+{% endblock %}
+
+{% block menu %}
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+         <a class="navbar-brand">Sistema Ecoprint</a></li>
+     </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'url_home_website' %}">Home</a></li>
+        {% if user.is_authenticated %}
+          <li class="dropdown active">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Orçamentos Flexo<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li class="active"><a href="{% url 'url_ladesivo' %}">Orçamentos Adesivo</a></li>
+              <li><a href="{% url 'url_lfilme' %}">Orçamentos Filme</a></li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Orçamentos Flexo<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li class="disabled"><a href="{% url 'url_ladesivo' %}">Orçamentos Adesivo</a></li>
+              <li class="disabled"><a href="{% url 'url_lfilme' %}">Orçamentos Filme</a></li>
+            </ul>
+          </li>
+        {% endif %}
+        <li><a href="/admin">Cadastro</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-user"></span>  Olá {{ user }}</a></li>
+          <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        {% else %}
+          <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span>  Login</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col-sm-8">
+        <h3 align="center">Listagem dos Orçamentos Adesivo Flexo</h3>
+        <font size="2">
+        <table id="tabela" class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col" width="1%">Id</th>
+                <th scope="col" width="28%">Cliente</th>
+                <th scope="col" width="40%">Serviço</th>
+                <th scope="col" width="15%">Quant.</th>
+                <th scope="col" width="15%">Valor</th>
+                <th scope="col" width="1%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for valor in listagem %}
+                    <tr>
+                    <td>{{ valor.id }}</td>
+                    <td>{{ valor.cliente }}</td>
+                    <td>{{ valor.servico }}</td>
+                    <td>{{ valor.quantidade }}</td>
+                    <td>R$ {{ valor.total_a }}0</td>
+                    <td><a href="{% url 'url_cons_ocadesivo' valor.id %}" class="btn btn-primary btn-sm">+</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </font>
+        <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function(){
+              $('#tabela').DataTable({
+                  "language": {
+                        "lengthMenu": "Mostrando _MENU_ registros por página",
+                        "zeroRecords": "Nada encontrado",
+                        "info": "Mostrando página _PAGE_ de _PAGES_",
+                        "infoEmpty": "Nenhum registro disponível",
+                        "infoFiltered": "(filtrado de _MAX_ registros no total)"
+                    }
+                });
+            });
+        </script>
+    </div>
+    <div class="col-sm-4">
+        <h3 align="center">Novo Orçamento Adesivo Flexo</h3>
+        <form method="post" action="{% url 'url_novo_ocadesivo' %}">
+        {% csrf_token %}
+            <div class="row">
+                <div class="col-sm-4">
+                   {{ form.data | bootstrap }}
+                </div>
+                <div class="col-sm-8">
+                   {{ form.cliente | bootstrap }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                   {{ form.servico | bootstrap }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                   {{ form.material | bootstrap }}
+                </div>
+                <div class="col-sm-4">
+                   {{ form.acabamento | bootstrap }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                   {{ form.comp | bootstrap }}
+                </div>
+                <div class="col-sm-3">
+                   {{ form.larg | bootstrap }}
+                </div>
+                <div class="col-sm-6">
+                   {{ form.quantidade | bootstrap }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Salvar</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
