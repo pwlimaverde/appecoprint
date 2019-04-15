@@ -71,7 +71,7 @@ def novo_ocfilme(request):
         return redirect('url_lfilme')
 
     data['form'] = form
-    return render(request, 'moduloof/ocfilme.html', data)
+    return render(request, 'moduloof/orcfilme.html', data)
 
 
 @login_required
@@ -118,5 +118,6 @@ def cons_ocfilme(request, pk):
     data['total_c'] = cons.total_c
     data['totalp_c'] = cons.totalp_c
 
+    data['cadastro'] = cons
     data['form'] = form
-    return render(request, 'moduloof/ocfilme.html', data)
+    return render(request, 'moduloof/orcfilme.html', data)
