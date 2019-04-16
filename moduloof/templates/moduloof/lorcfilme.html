@@ -88,7 +88,7 @@
 {% block main %}
 <div class="row">
     <div class="col-md-8">
-        <h3 align="center">Listagem dos Orçamentos Adesivo Flexo</h3>
+        <h3 align="center">Listagem dos Orçamentos Filme Flexo</h3>
         <font size="2">
         <table id="tabela" class="table table-striped">
             <thead>
@@ -107,7 +107,7 @@
                     <td>{{ valor.id }}</td>
                     <td>{{ valor.cliente }}</td>
                     <td>{{ valor.servico }} - {{ valor.comp }} x {{ valor.larg }} mm</td>
-                    <td>{{ valor.quantidade }}</td>
+                    <td>{{ valor.quantidade }} - {{ valor.totalp_a }} kg</td>
                     <td>R$ {{ valor.total_a }}</td>
                     <td><a href="{% url 'url_cons_ocfilme' valor.id %}" class="btn btn-primary btn-sm">+</a></td>
                     </tr>
@@ -132,7 +132,7 @@
         </script>
     </div>
     <div class="col-md-4">
-        <h3 align="center">Novo Orçamento Adesivo Flexo</h3>
+        <h3 align="center">Novo Orçamento Filme Flexo</h3>
         <form method="post" action="{% url 'url_novo_ocfilme' %}">
         {% csrf_token %}
             <div class="row">
