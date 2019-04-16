@@ -30,54 +30,64 @@
 {% endblock %}
 
 {% block menu %}
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-         <a class="navbar-brand">Sistema Ecoprint</a></li>
-     </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li><a href="{% url 'url_home_website' %}">Home</a></li>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">Sistema Ecoprint</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'url_home_website' %}"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-briefcase"></i> Modulos
+                </a>
+                {% if user.is_authenticated %}
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item disabled" href="#">Digital</a></li>
+                        <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle active" href="#">Flexo</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item active" href="{% url 'url_ladesivo' %}">Orçamento Adesivo</a></li>
+                                <li><a class="dropdown-item" href="{% url 'url_lfilme' %}">Orçamento Filme</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% else %}
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item disabled" href="#">Digital</a></li>
+                        <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle disabled" href="#">Flexo</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'url_ladesivo' %}">Orçamento Adesivo</a></li>
+                                <li><a class="dropdown-item" href="{% url 'url_lfilme' %}">Orçamento Filme</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% endif %}
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin"><i class="fas fa-database"></i> Cadastro</a>
+            </li>
+        </ul>
+        <span class="navbar-text">
         {% if user.is_authenticated %}
-          <li class="dropdown active">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Orçamentos Flexo<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li class="active"><a href="{% url 'url_ladesivo' %}">Orçamentos Adesivo</a></li>
-              <li><a href="{% url 'url_lfilme' %}">Orçamentos Filme</a></li>
-            </ul>
-          </li>
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'login' %}"><i class="fas fa-user"></i> Olá {{ user }}</a>
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
         {% else %}
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Orçamentos Flexo<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li class="disabled"><a href="{% url 'url_ladesivo' %}">Orçamentos Adesivo</a></li>
-              <li class="disabled"><a href="{% url 'url_lfilme' %}">Orçamentos Filme</a></li>
-            </ul>
-          </li>
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
         {% endif %}
-        <li><a href="/admin">Cadastro</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        {% if user.is_authenticated %}
-          <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-user"></span>  Olá {{ user }}</a></li>
-          <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-        {% else %}
-          <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span>  Login</a></li>
-        {% endif %}
-      </ul>
+        </span>
     </div>
-  </div>
 </nav>
+
 {% endblock %}
 
 {% block main %}
 <div class="row">
-    <div class="col-sm-8">
+    <div class="col-md-8">
         <h3 align="center">Listagem dos Orçamentos Adesivo Flexo</h3>
         <font size="2">
         <table id="tabela" class="table table-striped">
@@ -121,7 +131,7 @@
             });
         </script>
     </div>
-    <div class="col-sm-4">
+    <div class="col-md-4">
         <h3 align="center">Novo Orçamento Adesivo Flexo</h3>
         <form method="post" action="{% url 'url_novo_ocadesivo' %}">
         {% csrf_token %}
