@@ -2,22 +2,22 @@
 {% load bootstrap %}
 {% block head %}
     <style>
-    #customers {
+    #tabela {
       font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
       border-collapse: collapse;
       width: 100%;
     }
 
-    #customers td, #customers th {
+    #tabela td, #tabela th {
       border: 1px solid #ddd;
       padding: 8px;
     }
 
-    #customers tr:nth-child(even){background-color: #f2f2f2;}
+    #tabela tr:nth-child(even){background-color: #f2f2f2;}
 
-    #customers tr:hover {background-color: #ddd;}
+    #tabela tr:hover {background-color: #ddd;}
 
-    #customers th {
+    #tabela th {
       padding-top: 12px;
       padding-bottom: 12px;
       text-align: left;
@@ -25,7 +25,8 @@
       color: white;
     }
     </style>
-    <title>Orçamento Filme Flexo</title>
+    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+    <title>Orçamentos Adesivo Flexo</title>
 {% endblock %}
 
 {% block menu %}
@@ -41,7 +42,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'url_home_website' %}"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown active">
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-briefcase"></i> Modulos
                 </a>
@@ -51,7 +52,7 @@
                         <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle active" href="#">Flexo</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'url_ladesivo' %}">Orçamento Adesivo</a></li>
-                                <li><a class="dropdown-item active" href="{% url 'url_lfilme' %}">Orçamento Filme</a></li>
+                                <li><a class="dropdown-item" href="{% url 'url_lfilme' %}">Orçamento Filme</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -68,7 +69,7 @@
                 {% endif %}
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'url_cadastro' %}"><i class="fas fa-database"></i> Cadastro</a>
+                <a class="nav-link active" href="{% url 'url_cadastro' %}"><i class="fas fa-database"></i> Cadastro</a>
             </li>
         </ul>
         <span class="navbar-text">
@@ -88,86 +89,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h2 align="center">Orçamento Filme Flexo - {{ cadastro.cliente }}</h2>
-    </div>
-    <div class="col-md-5">
-        <form method="post">
-        {% csrf_token %}
-            <div class="row">
-                <div class="col-sm-4">
-                   {{ form.data | bootstrap }}
-                </div>
-                <div class="col-sm-8">
-                   {{ form.cliente | bootstrap }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                   {{ form.servico | bootstrap }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-8">
-                   {{ form.material | bootstrap }}
-                </div>
-                <div class="col-sm-4">
-                   {{ form.acabamento | bootstrap }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3">
-                   {{ form.comp | bootstrap }}
-                </div>
-                <div class="col-sm-3">
-                   {{ form.larg | bootstrap }}
-                </div>
-                <div class="col-sm-6">
-                   {{ form.quantidade | bootstrap }}
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Salvar</button>
-            <a href="{% url 'url_lfilme' %}" class="btn btn-secondary btn-block">Listagem</a>
-        </form>
-    </div>
-    <div class="col-md-7">
-        <h3 align="center">Tabela de valores</h3>
-        <font size="3">
-        <table class="table" id="customers">
-            <thead class="thead">
-                <tr>
-                <th scope="col" width="20%">Quantidade</th>
-                <th scope="col" width="15%">Peso</th>
-                <th scope="col" width="15%">Valor do kg</th>
-                <th scope="col" width="20%">Valor unitário</th>
-                <th scope="col" width="30%">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <td>{{ quanta }}</td>
-                <td>{{ totalp_a }} kg</td>
-                <td>R$ {{ vaa }}</td>
-                <td>R$ {{ valor_a }}</td>
-                <td>R$ {{ total_a }}</td>
-                </tr>
-                <tr>
-                <td>{{ quantb }}</td>
-                <td>{{ totalp_b }} kg</td>
-                <td>R$ {{ vab }}</td>
-                <td>R$ {{ valor_b }}</td>
-                <td>R$ {{ total_b }}</td>
-                </tr>
-                <tr>
-                <td>{{ quantc }}</td>
-                <td>{{ totalp_c }} kg</td>
-                <td>R$ {{ vac }}</td>
-                <td>R$ {{ valor_c }}</td>
-                <td>R$ {{ total_c }}</td>
-                </tr>
-            </tbody>
-        </table>
-        </font>
-        <p>Quantidade Mínima: {{ quantmi }}</p>
+        <object width="100%" height="720%" data="/admin"></object>
     </div>
 </div>
 

@@ -6,6 +6,10 @@ from .forms import OcadesivoForm, OcfilmeForm
 
 # Views
 @login_required
+def cadastro(request):
+    return render(request, 'moduloof/cadastro.html')
+
+@login_required
 def novo_ocadesivo(request):
     data = {}
     form = OcadesivoForm(request.POST or None)
