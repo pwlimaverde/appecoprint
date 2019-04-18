@@ -23,6 +23,30 @@ def novo_ocadesivo(request):
 
 
 @login_required
+def duporcadesivo(request, pk):
+    data = {}
+    cons = Orcamento_adesivo.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = OcadesivoForm(request.POST or None)
+
+        if form.is_valid():
+            form.save()
+            cons = Orcamento_adesivo.objects.all().order_by("-id")[0]
+            return redirect('url_cons_ocadesivo', cons.id)
+
+        data['form'] = form
+        return render(request, 'moduloof/orcadesivo.html', data)
+
+
+    else:
+
+        form = OcadesivoForm(request.POST or None, instance=cons)
+        data['form'] = form
+
+    return render(request, 'moduloof/duporcadesivo.html', data)
+
+
+@login_required
 def locadesivo(request):
     data = {}
     form = OcadesivoForm()
@@ -79,6 +103,30 @@ def novo_ocfilme(request):
 
     data['form'] = form
     return render(request, 'moduloof/orcfilme.html', data)
+
+
+@login_required
+def duporcfilme(request, pk):
+    data = {}
+    cons = Orcamento_filme.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = OcfilmeForm(request.POST or None)
+
+        if form.is_valid():
+            form.save()
+            cons = Orcamento_filme.objects.all().order_by("-id")[0]
+            return redirect('url_cons_ocfilme', cons.id)
+
+        data['form'] = form
+        return render(request, 'moduloof/orcfilme.html', data)
+
+
+    else:
+
+        form = OcfilmeForm(request.POST or None, instance=cons)
+        data['form'] = form
+
+    return render(request, 'moduloof/duporcfilme.html', data)
 
 
 @login_required

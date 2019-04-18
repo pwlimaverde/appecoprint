@@ -25,7 +25,7 @@
       color: white;
     }
     </style>
-    <title>Orçamento Adesivo Flexo</title>
+    <title>Orçamento Filme Flexo</title>
 {% endblock %}
 
 {% block menu %}
@@ -49,8 +49,8 @@
                         <li><a class="dropdown-item disabled" href="#">Digital</a></li>
                         <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle active" href="#">Flexo</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item active" href="{% url 'url_ladesivo' %}">Orçamento Adesivo</a></li>
-                                <li><a class="dropdown-item" href="{% url 'url_lfilme' %}">Orçamento Filme</a></li>
+                                <li><a class="dropdown-item" href="{% url 'url_ladesivo' %}">Orçamento Adesivo</a></li>
+                                <li><a class="dropdown-itema ctive" href="{% url 'url_lfilme' %}">Orçamento Filme</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -83,13 +83,13 @@
 {% endblock %}
 
 {% block main %}
-
-<div class="row">
-    <div class="col-md-12">
-        <h2 align="center">Orçamento Adesivo Flexo - {{ cadastro.cliente }}</h2>
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <h2 align="center">Deseja Duplicar o Orçamento</h2>
+        <hr>
     </div>
 </div>
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-5">
         <form method="post">
         {% csrf_token %}
@@ -126,51 +126,8 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Salvar</button>
-            <a href="{% url 'url_ladesivo' %}" class="btn btn-secondary btn-block">Listagem</a>
-            <a href="{% url 'url_duporcadesivo' cadastro.id %}" class="btn btn-dark btn-block">Duplicar</a>
+            <a href="{% url 'url_lfilme' %}" class="btn btn-secondary btn-block">Listagem</a>
         </form>
     </div>
-    <div class="col-md-7">
-        <h3 align="center">Tabela de valores</h3>
-        <font size="3">
-        <table class="table" id="customers">
-            <thead class="thead">
-                <tr>
-                <th scope="col" width="20%">Quantidade</th>
-                <th scope="col" width="10%">m²</th>
-                <th scope="col" width="15%">Valor do m²</th>
-                <th scope="col" width="20%">Valor unitário</th>
-                <th scope="col" width="35%">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <td>{{ quanta }}</td>
-                <td>{{ mqa }}</td>
-                <td>R$ {{ vaa }}0</td>
-                <td>R$ {{ valor_a }}</td>
-                <td>R$ {{ total_a }}0</td>
-                </tr>
-                <tr>
-                <td>{{ quantb }}</td>
-                <td>{{ mqb }}</td>
-                <td>R$ {{ vab }}0</td>
-                <td>R$ {{ valor_b }}</td>
-                <td>R$ {{ total_b }}0</td>
-                </tr>
-                <tr>
-                <td>{{ quantc }}</td>
-                <td>{{ mqc }}</td>
-                <td>R$ {{ vac }}0</td>
-                <td>R$ {{ valor_c }}</td>
-                <td>R$ {{ total_c }}0</td>
-                </tr>
-            </tbody>
-        </table>
-        </font>
-        <p>Quantidade Mínima: {{ quantmi }}</p>
-    </div>
 </div>
-
-
 {% endblock %}
