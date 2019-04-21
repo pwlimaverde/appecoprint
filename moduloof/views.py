@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView, ListView
+from django.views.generic import TemplateView, CreateView, ListView, UpdateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from .models import Orcamento_adesivo, Orcamento_filme
@@ -26,19 +26,6 @@ class Novo_ocadesivo(CreateView):
 
 """
 @login_required
-def novo_ocadesivo(request):
-    data = {}
-    form = OcadesivoForm(request.POST or None)
-
-    if form.is_valid():
-        form.save()
-        return redirect('url_ladesivo')
-
-    data['form'] = form
-    return render(request, 'moduloof/orcadesivo.html', data)
-"""
-
-@login_required
 def duporcadesivo(request, pk):
     data = {}
     cons = Orcamento_adesivo.objects.get(pk=pk)
@@ -60,7 +47,7 @@ def duporcadesivo(request, pk):
         data['form'] = form
 
     return render(request, 'moduloof/duporcadesivo.html', data)
-
+"""
 
 @method_decorator(login_required, name='dispatch')
 class Locadesivo(ListView):
@@ -73,19 +60,20 @@ class Locadesivo(ListView):
         context['form'] = OcadesivoForm()
         return context
 
+
+@method_decorator(login_required, name='dispatch')
+class Cons_ocadesivo(UpdateView):
+
+    model = Orcamento_adesivo
+    template_name = 'moduloof/orcadesivo.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        # capture that 'pk' as companyid and pass it to 'reverse_lazy()' function
+        companyid = self.kwargs['pk']
+        return reverse_lazy('url_cons_ocadesivo', kwargs={'pk': companyid})
+
 """
-@login_required
-def locadesivo(request):
-    data = {}
-    form = OcadesivoForm()
-    listagem = Orcamento_adesivo.objects.all()
-
-    data['listagem'] = listagem
-    data['form'] = form
-    return render(request, 'moduloof/lorcadesivo.html', data)
-
-"""
-
 @login_required
 def cons_ocadesivo(request, pk):
     data = {}
@@ -120,6 +108,7 @@ def cons_ocadesivo(request, pk):
     data['form'] = form
     return render(request, 'moduloof/orcadesivo.html', data)
 
+"""
 
 @method_decorator(login_required, name='dispatch')
 class Novo_ocfilme(CreateView):
@@ -129,20 +118,6 @@ class Novo_ocfilme(CreateView):
     fields = '__all__'
     success_url = reverse_lazy('url_lfilme')
 
-
-"""
-@login_required
-def novo_ocfilme(request):
-    data = {}
-    form = OcfilmeForm(request.POST or None)
-
-    if form.is_valid():
-        form.save()
-        return redirect('url_lfilme')
-
-    data['form'] = form
-    return render(request, 'moduloof/orcfilme.html', data)
-"""
 
 @login_required
 def duporcfilme(request, pk):
@@ -179,16 +154,6 @@ class Locfilme(ListView):
         context['form'] = OcfilmeForm()
         return context
 
-"""
-@login_required
-def locfilme(request):
-    data = {}
-    form = OcfilmeForm()
-    listagem = Orcamento_filme.objects.all()
-    data['listagem'] = listagem
-    data['form'] = form
-    return render(request, 'moduloof/lorcfilme.html', data)
-"""
 
 @login_required
 def cons_ocfilme(request, pk):

@@ -127,7 +127,6 @@
             </div>
             <button type="submit" class="btn btn-primary btn-block">Salvar</button>
             <a href="{% url 'url_ladesivo' %}" class="btn btn-secondary btn-block">Listagem</a>
-            <a href="{% url 'url_duporcadesivo' cadastro.id %}" class="btn btn-dark btn-block">Duplicar</a>
         </form>
     </div>
     <div class="col-md-7">
@@ -145,32 +144,31 @@
             </thead>
             <tbody>
                 <tr>
-                <td>{{ quanta }}</td>
-                <td>{{ mqa }}</td>
-                <td>R$ {{ vaa }}0</td>
-                <td>R$ {{ valor_a }}</td>
-                <td>R$ {{ total_a }}0</td>
+                <td>{{ object.calc_va.quanta }}</td>
+                <td>{{ object.calc_va.mqa }}</td>
+                <td>R$ {{ object.calc_va.vaa }}0</td>
+                <td>R$ {{ object.calc_va.resa }}</td>
+                <td>R$ {{ object.calc_va.total_a }}0</td>
                 </tr>
                 <tr>
-                <td>{{ quantb }}</td>
-                <td>{{ mqb }}</td>
-                <td>R$ {{ vab }}0</td>
-                <td>R$ {{ valor_b }}</td>
-                <td>R$ {{ total_b }}0</td>
+                <td>{{ object.calc_va.quantb }}</td>
+                <td>{{ object.calc_va.mqb }}</td>
+                <td>R$ {{ object.calc_va.vab }}0</td>
+                <td>R$ {{ object.calc_va.resb }}</td>
+                <td>R$ {{ object.calc_va.total_b }}0</td>
                 </tr>
                 <tr>
-                <td>{{ quantc }}</td>
-                <td>{{ mqc }}</td>
-                <td>R$ {{ vac }}0</td>
-                <td>R$ {{ valor_c }}</td>
-                <td>R$ {{ total_c }}0</td>
+                <td>{{ object.calc_va.quantc }}</td>
+                <td>{{ object.calc_va.mqc }}</td>
+                <td>R$ {{ object.calc_va.vac }}0</td>
+                <td>R$ {{ object.calc_va.resc }}</td>
+                <td>R$ {{ object.calc_va.total_c }}0</td>
                 </tr>
             </tbody>
         </table>
         </font>
-        <p>Quantidade Mínima: {{ quantmi }}</p>
+        <p>Quantidade Mínima: {{ object.calc_va.quantmi }}</p>
     </div>
 </div>
-
 
 {% endblock %}

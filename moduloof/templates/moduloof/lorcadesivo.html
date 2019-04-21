@@ -85,8 +85,8 @@
                     <td>{{ valor.id }}</td>
                     <td>{{ valor.cliente }}</td>
                     <td>{{ valor.servico }} - {{ valor.comp }} x {{ valor.larg }} mm</td>
-                    <td>{{ valor.quantidade }}</td>
-                    <td>R$ {{ valor.total_a }}0</td>
+                    <td>{{ valor.calc_va.quanta }}</td>
+                    <td>R$ {{ valor.calc_va.total_a }}0</td>
                     <td><a href="{% url 'url_cons_ocadesivo' valor.id %}" class="btn btn-primary btn-sm">+</a></td>
                     </tr>
                 {% endfor %}
