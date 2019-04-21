@@ -90,6 +90,8 @@
     <div class="col-md-12">
         <h2 align="center">Orçamento Filme Flexo - {{ cadastro.cliente }}</h2>
     </div>
+</div>
+<div class="row">
     <div class="col-md-5">
         <form method="post">
         {% csrf_token %}
@@ -127,7 +129,6 @@
             </div>
             <button type="submit" class="btn btn-primary btn-block">Salvar</button>
             <a href="{% url 'url_lfilme' %}" class="btn btn-secondary btn-block">Listagem</a>
-            <a href="{% url 'url_duporcfilme' cadastro.id %}" class="btn btn-dark btn-block">Duplicar</a>
         </form>
     </div>
     <div class="col-md-7">
@@ -145,30 +146,30 @@
             </thead>
             <tbody>
                 <tr>
-                <td>{{ quanta }}</td>
-                <td>{{ totalp_a }} kg</td>
-                <td>R$ {{ vaa }}</td>
-                <td>R$ {{ valor_a }}</td>
-                <td>R$ {{ total_a }}</td>
+                <td>{{ object.calc_vf.quanta }}</td>
+                <td>{{ object.calc_vf.totalp_a }} kg</td>
+                <td>R$ {{ object.calc_vf.vaa }}</td>
+                <td>R$ {{ object.calc_vf.valor_a }}</td>
+                <td>R$ {{ object.calc_vf.total_a }}</td>
                 </tr>
                 <tr>
-                <td>{{ quantb }}</td>
-                <td>{{ totalp_b }} kg</td>
-                <td>R$ {{ vab }}</td>
-                <td>R$ {{ valor_b }}</td>
-                <td>R$ {{ total_b }}</td>
+                <td>{{ object.calc_vf.quantb }}</td>
+                <td>{{ object.calc_vf.totalp_b }} kg</td>
+                <td>R$ {{ object.calc_vf.vab }}</td>
+                <td>R$ {{ object.calc_vf.valor_b }}</td>
+                <td>R$ {{ object.calc_vf.total_b }}</td>
                 </tr>
                 <tr>
-                <td>{{ quantc }}</td>
-                <td>{{ totalp_c }} kg</td>
-                <td>R$ {{ vac }}</td>
-                <td>R$ {{ valor_c }}</td>
-                <td>R$ {{ total_c }}</td>
+                <td>{{ object.calc_vf.quantc }}</td>
+                <td>{{ object.calc_vf.totalp_c }} kg</td>
+                <td>R$ {{ object.calc_vf.vac }}</td>
+                <td>R$ {{ object.calc_vf.valor_c }}</td>
+                <td>R$ {{ object.calc_vf.total_c }}</td>
                 </tr>
             </tbody>
         </table>
         </font>
-        <p>Quantidade Mínima: {{ quantmi }}</p>
+        <p>Quantidade Mínima: {{ object.calc_vf.quantmi }}</p>
     </div>
 </div>
 

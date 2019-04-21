@@ -73,42 +73,6 @@ class Cons_ocadesivo(UpdateView):
         companyid = self.kwargs['pk']
         return reverse_lazy('url_cons_ocadesivo', kwargs={'pk': companyid})
 
-"""
-@login_required
-def cons_ocadesivo(request, pk):
-    data = {}
-    cons = Orcamento_adesivo.objects.get(pk=pk)
-    form = OcadesivoForm(request.POST or None, instance=cons)
-
-    if form.is_valid():
-        form.save()
-        return redirect('url_cons_ocadesivo', cons.id)
-
-    data['vaa'] = cons.vaa
-    data['mqa'] = cons.mqa
-    data['valor_a'] = cons.resa
-    data['total_a'] = cons.total_a
-    data['quanta'] = cons.quanta
-
-    data['vab'] = cons.vab
-    data['mqb'] = cons.mqb
-    data['valor_b'] = cons.resb
-    data['total_b'] = cons.total_b
-    data['quantb'] = cons.quantb
-
-    data['vac'] = cons.vac
-    data['mqc'] = cons.mqc
-    data['valor_c'] = cons.resc
-    data['total_c'] = cons.total_c
-    data['quantc'] = cons.quantc
-
-    data['quantmi'] = cons.quantmi
-
-    data['cadastro'] = cons
-    data['form'] = form
-    return render(request, 'moduloof/orcadesivo.html', data)
-
-"""
 
 @method_decorator(login_required, name='dispatch')
 class Novo_ocfilme(CreateView):
@@ -118,7 +82,7 @@ class Novo_ocfilme(CreateView):
     fields = '__all__'
     success_url = reverse_lazy('url_lfilme')
 
-
+"""
 @login_required
 def duporcfilme(request, pk):
     data = {}
@@ -141,7 +105,7 @@ def duporcfilme(request, pk):
         data['form'] = form
 
     return render(request, 'moduloof/duporcfilme.html', data)
-
+"""
 
 @method_decorator(login_required, name='dispatch')
 class Locfilme(ListView):
@@ -155,6 +119,19 @@ class Locfilme(ListView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
+class Cons_ocfilme(UpdateView):
+
+    model = Orcamento_filme
+    template_name = 'moduloof/orcfilme.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        # capture that 'pk' as companyid and pass it to 'reverse_lazy()' function
+        companyid = self.kwargs['pk']
+        return reverse_lazy('url_cons_ocfilme', kwargs={'pk': companyid})
+
+"""
 @login_required
 def cons_ocfilme(request, pk):
     data = {}
@@ -194,3 +171,4 @@ def cons_ocfilme(request, pk):
     data['cadastro'] = cons
     data['form'] = form
     return render(request, 'moduloof/orcfilme.html', data)
+"""

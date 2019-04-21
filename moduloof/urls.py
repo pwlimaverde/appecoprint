@@ -5,9 +5,8 @@ from .views import (
     Locadesivo,
     Cons_ocadesivo,
     Novo_ocfilme,
-    duporcfilme,
     Locfilme,
-    cons_ocfilme,
+    Cons_ocfilme,
 )
 
 urlpatterns = [
@@ -25,8 +24,6 @@ urlpatterns = [
          name='url_lfilme'),
     path('moduloof/novofi/', Novo_ocfilme.as_view(),
          name='url_novo_ocfilme'),
-    path('moduloof/duporcfilme/<int:pk>/', duporcfilme,
-         name='url_duporcfilme'),
-    path('moduloof/consfi/<int:pk>/', cons_ocfilme,
+    path('moduloof/consfi/<int:pk>/', Cons_ocfilme.as_view(),
          name='url_cons_ocfilme'),
 ]
