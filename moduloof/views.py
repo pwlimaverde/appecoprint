@@ -1,8 +1,7 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .models import Orcamento_adesivo, Orcamento_filme
 from .forms import OcadesivoForm, OcfilmeForm
 
@@ -24,36 +23,31 @@ class Novo_ocadesivo(CreateView):
     fields = '__all__'
     success_url = reverse_lazy('url_ladesivo')
 
-"""
-@login_required
-def duporcadesivo(request, pk):
-    data = {}
-    cons = Orcamento_adesivo.objects.get(pk=pk)
-    if request.method == 'POST':
-        form = OcadesivoForm(request.POST or None)
 
-        if form.is_valid():
-            form.save()
-            cons = Orcamento_adesivo.objects.all().order_by("-id")[0]
-            return redirect('url_cons_ocadesivo', cons.id)
+@method_decorator(login_required, name='dispatch')
+class Dupocadesivo(UpdateView):
 
-        data['form'] = form
-        return render(request, 'moduloof/orcadesivo.html', data)
+    model = Orcamento_adesivo
+    template_name = 'moduloof/duporcadesivo.html'
+    fields = '__all__'
 
 
-    else:
+@method_decorator(login_required, name='dispatch')
+class Delocadesivo(DeleteView):
 
-        form = OcadesivoForm(request.POST or None, instance=cons)
-        data['form'] = form
+    model = Orcamento_adesivo
+    template_name = 'moduloof/delete_confirm.html'
 
-    return render(request, 'moduloof/duporcadesivo.html', data)
-"""
+    def get_success_url(self):
+        return reverse_lazy('url_ladesivo')
+
 
 @method_decorator(login_required, name='dispatch')
 class Locadesivo(ListView):
 
     model = Orcamento_adesivo
     template_name = 'moduloof/lorcadesivo.html'
+    ordering = ['-id']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,6 +76,25 @@ class Novo_ocfilme(CreateView):
     fields = '__all__'
     success_url = reverse_lazy('url_lfilme')
 
+
+@method_decorator(login_required, name='dispatch')
+class Delocfilme(DeleteView):
+
+    model = Orcamento_filme
+    template_name = 'moduloof/delete_confirm.html'
+
+    def get_success_url(self):
+        return reverse_lazy('url_lfilme')
+
+
+@method_decorator(login_required, name='dispatch')
+class Dupocfilme(UpdateView):
+
+    model = Orcamento_filme
+    template_name = 'moduloof/duporcfilme.html'
+    fields = '__all__'
+
+
 """
 @login_required
 def duporcfilme(request, pk):
@@ -107,6 +120,7 @@ def duporcfilme(request, pk):
     return render(request, 'moduloof/duporcfilme.html', data)
 """
 
+
 @method_decorator(login_required, name='dispatch')
 class Locfilme(ListView):
 
@@ -130,45 +144,3 @@ class Cons_ocfilme(UpdateView):
         # capture that 'pk' as companyid and pass it to 'reverse_lazy()' function
         companyid = self.kwargs['pk']
         return reverse_lazy('url_cons_ocfilme', kwargs={'pk': companyid})
-
-"""
-@login_required
-def cons_ocfilme(request, pk):
-    data = {}
-    cons = Orcamento_filme.objects.get(pk=pk)
-    form = OcfilmeForm(request.POST or None, instance=cons)
-
-    if form.is_valid():
-        form.save()
-        return redirect('url_cons_ocfilme', cons.id)
-
-    data['mqa'] = cons.mqa
-    data['area'] = cons.area
-    data['ar'] = cons.ar
-
-    data['vami'] = cons.vami
-    data['kgmi'] = cons.kgmi
-    data['quantmi'] = cons.quantmi
-
-    data['vaa'] = cons.vaa
-    data['quanta'] = cons.quanta
-    data['valor_a'] = cons.valor_a
-    data['total_a'] = cons.total_a
-    data['totalp_a'] = cons.totalp_a
-
-    data['vab'] = cons.vab
-    data['quantb'] = cons.quantb
-    data['valor_b'] = cons.valor_b
-    data['total_b'] = cons.total_b
-    data['totalp_b'] = cons.totalp_b
-
-    data['vac'] = cons.vac
-    data['valor_c'] = cons.valor_c
-    data['quantc'] = cons.quantc
-    data['total_c'] = cons.total_c
-    data['totalp_c'] = cons.totalp_c
-
-    data['cadastro'] = cons
-    data['form'] = form
-    return render(request, 'moduloof/orcfilme.html', data)
-"""

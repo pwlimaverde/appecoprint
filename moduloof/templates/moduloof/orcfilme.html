@@ -128,7 +128,8 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Salvar</button>
-            <a href="{% url 'url_lfilme' %}" class="btn btn-secondary btn-block">Listagem</a>
+            <a href="{% url 'url_dup_ocfilme' object.id %}" class="btn btn-secondary btn-block">Duplicar</a>
+            <a href="{% url 'url_del_ocfilme' object.id %}" class="btn btn-danger btn-block">Deletar</a>
         </form>
     </div>
     <div class="col-md-7">
@@ -170,6 +171,7 @@
         </table>
         </font>
         <p>Quantidade Mínima: {{ object.calc_vf.quantmi }}</p>
+        <a href="{% url 'url_lfilme' %}" class="btn btn-info btn-block">Listagem</a>
     </div>
 </div>
 

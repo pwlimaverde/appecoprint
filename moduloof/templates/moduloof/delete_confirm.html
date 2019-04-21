@@ -1,34 +1,14 @@
 {% extends 'base_sistema.html' %}
 {% load bootstrap %}
+{% load static %}
+
 {% block head %}
-    <style>
-    #customers {
-      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    #customers td, #customers th {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-
-    #customers tr:nth-child(even){background-color: #f2f2f2;}
-
-    #customers tr:hover {background-color: #ddd;}
-
-    #customers th {
-      padding-top: 12px;
-      padding-bottom: 12px;
-      text-align: left;
-      background-color: #222222;
-      color: white;
-    }
-    </style>
-    <title>Orçamento Filme Flexo</title>
+    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+    <title>Deletar Orçamento Adesivo Flexo</title>
 {% endblock %}
 
 {% block menu %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -49,8 +29,8 @@
                         <li><a class="dropdown-item disabled" href="#">Digital</a></li>
                         <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle active" href="#">Flexo</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'url_ladesivo' %}">Orçamento Adesivo</a></li>
-                                <li><a class="dropdown-itema ctive" href="{% url 'url_lfilme' %}">Orçamento Filme</a></li>
+                                <li><a class="dropdown-item active" href="{% url 'url_ladesivo' %}">Orçamento Adesivo</a></li>
+                                <li><a class="dropdown-item" href="{% url 'url_lfilme' %}">Orçamento Filme</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -80,54 +60,15 @@
         </span>
     </div>
 </nav>
+
 {% endblock %}
 
 {% block main %}
-<div class="row justify-content-center">
-    <div class="col-md-5">
-        <h2 align="center">Deseja Duplicar o Orçamento</h2>
-        <hr>
-    </div>
-</div>
-<div class="row justify-content-center">
-    <div class="col-md-5">
-        <form method="post" action="{% url 'url_novo_ocfilme' %}">
-        {% csrf_token %}
-            <div class="row">
-                <div class="col-sm-4">
-                   {{ form.data | bootstrap }}
-                </div>
-                <div class="col-sm-8">
-                   {{ form.cliente | bootstrap }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                   {{ form.servico | bootstrap }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-8">
-                   {{ form.material | bootstrap }}
-                </div>
-                <div class="col-sm-4">
-                   {{ form.acabamento | bootstrap }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3">
-                   {{ form.comp | bootstrap }}
-                </div>
-                <div class="col-sm-3">
-                   {{ form.larg | bootstrap }}
-                </div>
-                <div class="col-sm-6">
-                   {{ form.quantidade | bootstrap }}
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Salvar</button>
-            <a href="{% url 'url_lfilme' %}" class="btn btn-secondary btn-block">Listagem</a>
-        </form>
-    </div>
-</div>
+
+    <h3>Tem certeza que deseja deletar {{ object.servico }} </h3>
+
+    <form method="post">{% csrf_token %}
+        <input type="submit" class="btn btn-danger" value="Confirmar">
+    </form>
+
 {% endblock %}
