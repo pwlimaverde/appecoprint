@@ -1,5 +1,12 @@
-from django.shortcuts import render
+from django.views.generic.base import TemplateView
+from datetime import datetime
 
 
-def home_website(request):
-    return render(request, 'website/home.html')
+class Home_website(TemplateView):
+
+    template_name = 'website/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = datetime.now()
+        return context

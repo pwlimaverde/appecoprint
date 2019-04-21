@@ -1,13 +1,29 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, CreateView
+from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from .models import Orcamento_adesivo, Orcamento_filme
 from .forms import OcadesivoForm, OcfilmeForm
 
 
+
 # Views
-@login_required
-def cadastro(request):
-    return render(request, 'moduloof/cadastro.html')
+
+@method_decorator(login_required, name='dispatch')
+class Cadastro(TemplateView):
+
+    template_name = 'moduloof/cadastro.html'
+
+
+@method_decorator(login_required, name='dispatch')
+class Novo_ocadesivo(CreateView):
+
+    model = Orcamento_adesivo
+    template_name = 'moduloof/orcadesivo.html'
+    fields = '__all__'
+    success_url = reverse_lazy('url_ladesivo')
+
 
 @login_required
 def novo_ocadesivo(request):

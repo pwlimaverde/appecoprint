@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
-    cadastro,
+    Cadastro,
+    Novo_ocadesivo,
     locadesivo,
     novo_ocadesivo,
     duporcadesivo,
@@ -12,12 +13,12 @@ from .views import (
 )
 
 urlpatterns = [
-    path('moduloof/cadastro/', cadastro,
+    path('moduloof/cadastro/', Cadastro.as_view(),
          name='url_cadastro'),
 
     path('moduloof/locadesivo/', locadesivo,
          name='url_ladesivo'),
-    path('moduloof/novoad/', novo_ocadesivo,
+    path('moduloof/novoad/', Novo_ocadesivo.as_view(),
          name='url_novo_ocadesivo'),
     path('moduloof/duporcadesivo/<int:pk>/', duporcadesivo,
          name='url_duporcadesivo'),

@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{% static 'bootstrap/css/custbootstrap.css' %}">
     <!-- Links para icones -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'geral.css' %}">
+
 
     {% block head %}
     {% endblock %}
@@ -44,10 +46,14 @@
     </script>
 
 <hr>
+
     {% block main %}
     {% endblock %}
+    <hr>
 
+    <div class="footer">
+        <span>{% include 'footer.html' %}</span>
+    </div>
 </div>
-
 </body>
 </html>
