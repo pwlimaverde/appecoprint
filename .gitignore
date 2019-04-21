@@ -3,4 +3,3 @@ venv
 *.sqlite3
 *pyc
 .DS_Store
-.env
