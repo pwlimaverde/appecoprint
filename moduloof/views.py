@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, ListView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from .models import Orcamento_adesivo, Orcamento_filme
@@ -24,7 +24,7 @@ class Novo_ocadesivo(CreateView):
     fields = '__all__'
     success_url = reverse_lazy('url_ladesivo')
 
-
+"""
 @login_required
 def novo_ocadesivo(request):
     data = {}
@@ -36,7 +36,7 @@ def novo_ocadesivo(request):
 
     data['form'] = form
     return render(request, 'moduloof/orcadesivo.html', data)
-
+"""
 
 @login_required
 def duporcadesivo(request, pk):
@@ -62,6 +62,18 @@ def duporcadesivo(request, pk):
     return render(request, 'moduloof/duporcadesivo.html', data)
 
 
+@method_decorator(login_required, name='dispatch')
+class Locadesivo(ListView):
+
+    model = Orcamento_adesivo
+    template_name = 'moduloof/lorcadesivo.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = OcadesivoForm()
+        return context
+
+"""
 @login_required
 def locadesivo(request):
     data = {}
@@ -72,6 +84,7 @@ def locadesivo(request):
     data['form'] = form
     return render(request, 'moduloof/lorcadesivo.html', data)
 
+"""
 
 @login_required
 def cons_ocadesivo(request, pk):
@@ -108,6 +121,16 @@ def cons_ocadesivo(request, pk):
     return render(request, 'moduloof/orcadesivo.html', data)
 
 
+@method_decorator(login_required, name='dispatch')
+class Novo_ocfilme(CreateView):
+
+    model = Orcamento_filme
+    template_name = 'moduloof/orcfilme.html'
+    fields = '__all__'
+    success_url = reverse_lazy('url_lfilme')
+
+
+"""
 @login_required
 def novo_ocfilme(request):
     data = {}
@@ -119,7 +142,7 @@ def novo_ocfilme(request):
 
     data['form'] = form
     return render(request, 'moduloof/orcfilme.html', data)
-
+"""
 
 @login_required
 def duporcfilme(request, pk):
@@ -145,6 +168,18 @@ def duporcfilme(request, pk):
     return render(request, 'moduloof/duporcfilme.html', data)
 
 
+@method_decorator(login_required, name='dispatch')
+class Locfilme(ListView):
+
+    model = Orcamento_filme
+    template_name = 'moduloof/lorcfilme.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = OcfilmeForm()
+        return context
+
+"""
 @login_required
 def locfilme(request):
     data = {}
@@ -153,7 +188,7 @@ def locfilme(request):
     data['listagem'] = listagem
     data['form'] = form
     return render(request, 'moduloof/lorcfilme.html', data)
-
+"""
 
 @login_required
 def cons_ocfilme(request, pk):
