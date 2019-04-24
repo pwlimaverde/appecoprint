@@ -1,20 +1,14 @@
 import csv, io
 from django.contrib import messages
-from django.shortcuts import render
+from .models import Cont_op
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
-from datetime import datetime
-from .models import Cont_op
 
 
-class Home_website(TemplateView):
+class Import(TemplateView):
 
-    template_name = 'website/home.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['now'] = datetime.now()
-        return context
+    template_name = 'modulopcp/import.html'
 
 
 @login_required
@@ -25,7 +19,7 @@ def uploadop(request):
     }
 
     if request.method == 'GET':
-        return render(request, 'website/uploadop.html', prompt)
+        return render(request, 'modulopcp/uploadop.html', prompt)
 
     csv_file = request.FILES['file']
 
@@ -42,4 +36,4 @@ def uploadop(request):
         )
     context = {}
 
-    return render(request, 'website/uploadop.html', context)
+    return render(request, 'modulopcp/uploadop.html', context)
