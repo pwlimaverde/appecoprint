@@ -1,6 +1,6 @@
 import csv, io
 from django.contrib import messages
-from .models import Cont_op
+from .models import Relacao_op
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
@@ -28,11 +28,21 @@ def uploadop(request):
 
     data_set = csv_file.read().decode('UTF-8')
     io_string = io.StringIO(data_set)
-    next(io_string)
-    for column in csv.reader(io_string, delimiter=',', quotechar="|"):
-        _, created = Cont_op.objects.update_or_create(
-            op=column[0],
-            servico=column[1]
+    for column in csv.reader(io_string, delimiter=';', quotechar="|"):
+        _, created = Relacao_op.objects.update_or_create(
+            oc=column[0],
+            cliente=column[1],
+            servico=column[2],
+            quant=column[3],
+            valor=column[4],
+            entrada=column[5],
+            vendedor=column[6],
+            op=column[7],
+            prev_entrega=column[8],
+            nota=column[9],
+            entrega=column[10],
+            obs=column[11],
+            finalizada=column[12]
         )
     context = {}
 

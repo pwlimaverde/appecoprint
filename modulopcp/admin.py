@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import Cont_op
+from .models import Relacao_op
 
-admin.site.register(Cont_op)
+admin.site.register(Relacao_op)
