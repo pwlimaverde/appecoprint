@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'website',
     'moduloof',
+    'modulopcp',
     'widget_tweaks',
 ]
 
