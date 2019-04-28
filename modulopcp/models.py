@@ -29,7 +29,9 @@ class Ops(models.Model):
     vendedor = models.CharField(max_length=100, blank=False, null=False)
     op = models.IntegerField(max_length=5, blank=False, null=False)
     prev_entrega = models.DateTimeField()
-    info_fat = models.CharField(max_length=100, blank=False, null=False)
+    info_fat = models.CharField(max_length=100, blank=True, null=True)
+    entrega = models.DateField(blank=True, null=True)
+    cancelada = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.orcamento) + ' - ' + self.cliente
