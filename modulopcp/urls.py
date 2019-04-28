@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import testeup
+from .views import Testeup
 
 
 urlpatterns = [
-    path('', testeup, name='url_Testeimport'),
+    path('', Testeup.as_view(), name='url_Testeimport'),
 ]
 
