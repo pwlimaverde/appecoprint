@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Uploadxls, Testexls
+from .models import Uploadxls, Testexls3
 
 
 admin.site.register(Uploadxls)
-admin.site.register(Testexls)
+admin.site.register(Testexls3)
