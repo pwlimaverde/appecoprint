@@ -34,7 +34,7 @@ class Upload_op(View):
         for row_num in range(worksheet.nrows):
             row = worksheet.row_values(row_num)
             row[5] = datetime(*xlrd.xldate_as_tuple(row[5], datemode))
-            #row[8] = datetime(*xlrd.xldate_as_tuple(row[8], datemode))
+            row[8] = datetime(*xlrd.xldate_as_tuple(row[8], datemode))
             listaxls.append(row)
 
         for item in listaxls:
@@ -47,6 +47,7 @@ class Upload_op(View):
                 entrada=item[5],
                 vendedor=item[6],
                 op=item[7],
+                prev_entrega=item[8],
             )
 
         context = {}

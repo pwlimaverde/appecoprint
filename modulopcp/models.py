@@ -28,9 +28,8 @@ class Ops(models.Model):
     entrada = models.DateField()
     vendedor = models.CharField(max_length=100, blank=False, null=False)
     op = models.IntegerField(max_length=5, blank=False, null=False)
-    """
-    prev_entrega = models.CharField(max_length=300, blank=False, null=False)
-    """
+    prev_entrega = models.DateTimeField()
+
     def __str__(self):
         return str(self.orcamento) + ' - ' + self.cliente
 
