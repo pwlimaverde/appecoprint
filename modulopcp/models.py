@@ -13,3 +13,8 @@ class Testexls3(models.Model):
     def __str__(self):
         return self.campo1 + ' - ' + self.campo2
 
+
+class Upload_list_op(models.Model):
+    descricao = models.CharField(max_length=200, blank=False, null=False)
+    arquivo = models.FileField(max_length=200, upload_to='static/arquivosxls/', blank=False, null=False)
+
