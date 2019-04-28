@@ -26,9 +26,9 @@ class Ops(models.Model):
     quant = models.DecimalField(max_digits=7, decimal_places=0, blank=False, null=False)
     valor = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False)
     entrada = models.DateField()
-    """
     vendedor = models.CharField(max_length=100, blank=False, null=False)
     op = models.IntegerField(max_length=5, blank=False, null=False)
+    """
     prev_entrega = models.CharField(max_length=300, blank=False, null=False)
     """
     def __str__(self):

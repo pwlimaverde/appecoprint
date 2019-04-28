@@ -45,6 +45,8 @@ class Upload_op(View):
                 quant=item[3],
                 valor=item[4],
                 entrada=item[5],
+                vendedor=item[6],
+                op=item[7],
             )
 
         context = {}
