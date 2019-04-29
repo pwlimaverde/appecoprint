@@ -1,17 +1,21 @@
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+import xlrd
+from datetime import datetime
 from django.shortcuts import render
 from django.contrib import messages
-from django.views.generic.base import TemplateView, View
-from datetime import datetime
+from django.views.generic.base import View
 from .models import Ops, Upload_list_op
-import xlrd
 
 
+@method_decorator(login_required, name='dispatch')
 class Upload_op(View):
 
     def get(self, request, *args, **kwargs):
 
         prompt = {
-            'Upload do xml': 'Faça upload para inserir ou atualizar os dados'
+            'Upload do xml': 'Faça upload para inserir ou atualizar os dados das OPS'
         }
         return render(request, 'modulopcp/uploadop.html', prompt)
 
@@ -50,10 +54,11 @@ class Upload_op(View):
                 prev_entrega=item[8],
             )
 
+        now = datetime.now().strftime("%d-%m-%y as %H:%M:%S")
+        messages.success(request, 'Upload realizado com sucesso em: ' + str(now))
         context = {}
 
         context['listaxls'] = listaxls
-        context['now'] = datetime.now()
 
         return render(request, 'modulopcp/uploadop.html', context)
 

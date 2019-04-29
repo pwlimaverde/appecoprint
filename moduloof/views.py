@@ -1,7 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from .models import Orcamento_adesivo, Orcamento_filme
 from .forms import OcadesivoForm, OcfilmeForm
 

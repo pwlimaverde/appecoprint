@@ -1,22 +1,103 @@
-{% if messages %}
-    {% for message in messages %}
-        <div>
-            <strong>{{ message|safe }}</strong>
+{% extends 'base_sistema.html' %}
+{% load bootstrap %}
+{% load static %}
+
+{% block head %}
+    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+    <title>Upload de OPS</title>
+{% endblock %}
+
+{% block modulos %}active{% endblock %}
+{% block pcp %}active{% endblock %}
+{% block uppcp %}active{% endblock %}
+
+{% block main %}
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <h3 align="center">Upload de OP para Produção</h3>
         </div>
-    {% endfor %}
-{% else %}
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label>Upload do arquivo</label>
-        <input type="file" name="file">
-        <p>Somente xls</p>
-        <button type="submit">Upload</button>
-    </form>
-{% endif %}
-
-
-<h1>Teste Upload OP</h1>
-<br>
-{{ now }}
-<br>
-{{ listaxls }}
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            {% if messages %}
+                {% for message in messages %}
+                    <div>
+                        <p align="center">{{ message|safe }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="custom-file">
+                        <input type="file" name="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile"><i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Escolha o arquivo</label>
+                    </div>
+                    <p align="center">Aceito apenas arquivos .xls gerados pela Bremen</p>
+                    <button type="submit" class="btn btn-primary btn-block">Upload</button>
+                </form>
+                <script>
+                    // Add the following code if you want the name of the file appear on select
+                    $(".custom-file-input").on("change", function() {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                    });
+                </script>
+            {% endif %}
+        </div>
+    </div>
+    {% if request.method == 'POST'%}
+        <div class="row justify-content-center">
+        <div class="col-md-12">
+            <font size="2">
+            <table id="tabela" class="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col" width="5%">Op</th>
+                    <th scope="col" width="15%">Cliente</th>
+                    <th scope="col" width="46%">Servico</th>
+                    <th scope="col" width="5%">Quant</th>
+                    <th scope="col" width="5%">Valor</th>
+                    <th scope="col" width="5%">Orcamento</th>
+                    <th scope="col" width="5%">Vendedor</th>
+                    <th scope="col" width="7%">Entrada</th>
+                    <th scope="col" width="7%">Prev entrega</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for valor in listaxls %}
+                        <tr>
+                        <td>{{ valor.7 }}</td>
+                        <td>{{ valor.1 }}</td>
+                        <td>{{ valor.2 }}</td>
+                        <td>{{ valor.3 }}</td>
+                        <td>{{ valor.4 }}</td>
+                        <td>{{ valor.0 }}</td>
+                        <td>{{ valor.6 }}</td>
+                        <td>{{ valor.5|date:"d/m/Y" }}</td>
+                        <td>{{ valor.8|date:"d/m/Y" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </font>
+            <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+            <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+            <script>
+                $(document).ready(function(){
+                  $('#tabela').DataTable({
+                      "language": {
+                            "lengthMenu": "Mostrando _MENU_ registros por página",
+                            "zeroRecords": "Nada encontrado",
+                            "info": "Mostrando página _PAGE_ de _PAGES_",
+                            "infoEmpty": "Nenhum registro disponível",
+                            "infoFiltered": "(filtrado de _MAX_ registros no total)"
+                        }
+                    });
+                });
+            </script>
+            <hr>
+            <br>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
