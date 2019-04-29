@@ -35,18 +35,18 @@
             <tbody>
                 {% for valor in object_list %}
                     <tr>
-                    <td>{{ valor.op }}</td>
-                    <td>{{ valor.cliente }}</td>
-                    <td>{{ valor.servico }}</td>
-                    <td>{{ valor.quant }}</td>
-                    <td>{{ valor.valor }}</td>
-                    <td>{{ valor.orcamento }}</td>
-                    <td>{{ valor.vendedor }}</td>
-                    <td>{{ valor.entrada|date:"d/m/Y" }}</td>
-                    <td>{{ valor.prev_entrega|date:"d/m/Y" }}</td>
-                    <td>{{ valor.op.entrega|date:"d/m/Y" }}</td>
+                    <td>{{ valor.op.op }}</td>
+                    <td>{{ valor.op.cliente }}</td>
+                    <td>{{ valor.op.servico }}</td>
+                    <td>{{ valor.op.quant }}</td>
+                    <td>{{ valor.op.valor }}</td>
+                    <td>{{ valor.op.orcamento }}</td>
+                    <td>{{ valor.op.vendedor }}</td>
+                    <td>{{ valor.op.entrada|date:"d/m/Y" }}</td>
+                    <td>{{ valor.op.prev_entrega|date:"d/m/Y" }}</td>
+                    <td>{{ valor.entrega|date:"d/m/Y" }}</td>
                     <td>
-                        {% if valor.op.cancelada == True %}
+                        {% if valor.cancelada == True %}
                             <p>cancelada</p>
                         {% else %}
                             <p>ativa</p>

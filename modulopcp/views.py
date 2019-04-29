@@ -74,9 +74,23 @@ class Novo_reg_entrega(CreateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class List_prod_op(ListView):
+class List_prod_ent_op(ListView):
 
     model = Reg_entrega
+    template_name = 'modulopcp/listagemopent.html'
+    ordering = ['-id']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = Reg_entregaForm()
+        return context
+
+
+
+@method_decorator(login_required, name='dispatch')
+class List_prod_op(ListView):
+
+    model = Ops
     template_name = 'modulopcp/listagemop.html'
     ordering = ['-id']
 
