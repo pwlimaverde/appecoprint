@@ -42,6 +42,8 @@ class Upload_op(View):
             row[8] = datetime(*xlrd.xldate_as_tuple(row[8], datemode))
             listaxls.append(row)
 
+        listaent = []
+
         for item in listaxls:
             Ops.objects.update_or_create(
                 orcamento=item[0],
@@ -55,11 +57,18 @@ class Upload_op(View):
                 prev_entrega=item[8],
             )
 
+            cons = Ops.objects.all().order_by("-id")[0]
+            Reg_entrega.objects.update_or_create(op=cons)
+            listaent.append(cons.id)
+
+
         now = datetime.now().strftime("%d-%m-%y as %H:%M:%S")
         messages.success(request, 'Upload realizado com sucesso em: ' + str(now))
         context = {}
 
         context['listaxls'] = listaxls
+        context['listaent'] = listaent
+
 
         return render(request, 'modulopcp/uploadop.html', context)
 
