@@ -5,8 +5,9 @@ import xlrd
 from datetime import datetime
 from django.shortcuts import render
 from django.contrib import messages
-from django.views.generic.base import View
-from .models import Ops, Upload_list_op
+from django.views.generic import View, CreateView, ListView
+from .models import Ops, Upload_list_op, Reg_entrega
+from .forms import Reg_entregaForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -63,3 +64,23 @@ class Upload_op(View):
         return render(request, 'modulopcp/uploadop.html', context)
 
 
+@method_decorator(login_required, name='dispatch')
+class Novo_reg_entrega(CreateView):
+
+    model = Reg_entrega
+    template_name = 'modulopcp/listagemop.html'
+    fields = '__all__'
+    success_url = reverse_lazy('url_list_prod_op')
+
+
+@method_decorator(login_required, name='dispatch')
+class List_prod_op(ListView):
+
+    model = Reg_entrega
+    template_name = 'modulopcp/listagemop.html'
+    ordering = ['-id']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = Reg_entregaForm()
+        return context
