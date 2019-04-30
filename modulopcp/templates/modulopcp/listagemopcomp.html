@@ -56,12 +56,12 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-primary btn-block">Entregar</button>
+                                        <button type="submit" class="btn btn-success btn-block">Entregar</button>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a href="{% url 'url_list_prod_comp_up_op' valor.id %} " class="btn btn-warning btn-block">Cancelar</a>
+                                        <a href="{% url 'url_list_prod_comp_up_op' valor.id %} " class="btn btn-danger btn-block">Cancelar</a>
                                     </div>
                                 </div>
                             </form>
