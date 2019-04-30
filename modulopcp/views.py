@@ -3,9 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 import xlrd
 from datetime import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.generic import View, CreateView, ListView
+from django.views.generic import View, CreateView, ListView, UpdateView
 from .models import Ops, Upload_list_op, Reg_entrega
 from .forms import Reg_entregaForm
 
@@ -66,7 +66,7 @@ class Upload_op(View):
 
         return render(request, 'modulopcp/uploadop.html', context)
 
-
+"""
 @method_decorator(login_required, name='dispatch')
 class Novo_reg_entrega(CreateView):
 
@@ -74,6 +74,16 @@ class Novo_reg_entrega(CreateView):
     template_name = 'modulopcp/listagemopcomp.html'
     fields = '__all__'
     success_url = reverse_lazy('url_list_prod_comp_op')
+"""
+
+
+def upcancelada(request, pk):
+    ent = datetime.now()
+    if request.method == 'POST':
+        Reg_entrega.objects.filter(pk=pk).update(entrega=ent)
+    else:
+        Reg_entrega.objects.filter(pk=pk).update(cancelada=True)
+    return redirect('url_list_prod_comp_op')
 
 
 @method_decorator(login_required, name='dispatch')
