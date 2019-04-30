@@ -22,6 +22,8 @@ class Upload_op(View):
 
     def post(self, request, *args, **kwargs):
 
+        context = {}
+
         xls_file = request.FILES['file']
         Upload_list_op.objects.update_or_create(descricao=xls_file.name, arquivo=xls_file)
 
@@ -42,8 +44,6 @@ class Upload_op(View):
             row[8] = datetime(*xlrd.xldate_as_tuple(row[8], datemode))
             listaxls.append(row)
 
-        listaent = []
-
         for item in listaxls:
             Ops.objects.update_or_create(
                 orcamento=item[0],
@@ -59,16 +59,10 @@ class Upload_op(View):
 
             cons = Ops.objects.all().order_by("-id")[0]
             Reg_entrega.objects.update_or_create(op=cons)
-            listaent.append(cons.id)
-
 
         now = datetime.now().strftime("%d-%m-%y as %H:%M:%S")
         messages.success(request, 'Upload realizado com sucesso em: ' + str(now))
-        context = {}
-
         context['listaxls'] = listaxls
-        context['listaent'] = listaent
-
 
         return render(request, 'modulopcp/uploadop.html', context)
 
@@ -77,16 +71,16 @@ class Upload_op(View):
 class Novo_reg_entrega(CreateView):
 
     model = Reg_entrega
-    template_name = 'modulopcp/listagemop.html'
+    template_name = 'modulopcp/listagemopcomp.html'
     fields = '__all__'
-    success_url = reverse_lazy('url_list_prod_op')
+    success_url = reverse_lazy('url_list_prod_comp_op')
 
 
 @method_decorator(login_required, name='dispatch')
-class List_prod_ent_op(ListView):
+class List_prod_comp_op(ListView):
 
     model = Reg_entrega
-    template_name = 'modulopcp/listagemopent.html'
+    template_name = 'modulopcp/listagemopcomp.html'
     ordering = ['-id']
 
     def get_context_data(self, **kwargs):
