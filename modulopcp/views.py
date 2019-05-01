@@ -77,7 +77,7 @@ class Novo_reg_entrega(CreateView):
     success_url = reverse_lazy('url_list_prod_comp_op')
 """
 
-
+@login_required
 def upcancelada(request, pk):
     ent = datetime.now()
     if request.method == 'POST':

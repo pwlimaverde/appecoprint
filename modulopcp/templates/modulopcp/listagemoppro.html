@@ -66,7 +66,7 @@
                     <th style="text-align:center" scope="col" width="5%">Vendedor</th>
                     <th style="text-align:center" scope="col" width="50px">Entrada</th>
                     <th style="text-align:center" scope="col" width="50px">Prev entrega</th>
-                    <th style="text-align:center" scope="col" width="15%">Obs</th>
+                    <th style="text-align:center" scope="col" width="15%">Obs / Status</th>
                     <th style="text-align:center" scope="col" width="5%"></th>
                     <th style="text-align:center" scope="col" width="5%"></th>
                 </tr>
@@ -80,16 +80,16 @@
                     {% else %}
                         <tr>
                         <td style="text-align:center">{{ valor.op.op }}</td>
-                        <td style="width: 660px" height="50" class="truncate">{{ valor.op.cliente }} / {{ valor.op.servico }}</td>
+                        <td style="width: 660px" height="55" class="truncate">{{ valor.op.cliente }} / {{ valor.op.servico }}</td>
                         <td style="text-align:center">{{ valor.op.quant }}</td>
-                        <td style="text-align:center; width: 130px" height="50" class="truncate">{{ valor.op.vendedor }}</td>
+                        <td style="text-align:center; width: 130px" height="55" class="truncate">{{ valor.op.vendedor }}</td>
                         <td style="text-align:center">{{ valor.op.entrada|date:"d/m/Y" }}</td>
-                        <td style="text-align:center">{{ valor.op.prev_entrega|date:"d/m/Y" }}</td>
+                        <td style="text-align:center; color:red">{{ valor.op.prev_entrega|date:"d/m/Y" }} - {{ valor.op.status.diasp }}</td>
                         <td style="text-align:center">
                             {% if valor.obs %}
-                                {{ valor.obs }}
+                                {{ valor.obs }} - {{ valor.op.status.posicao }}
                             {% else %}
-
+                                {{ valor.op.status.posicao }}
                             {% endif %}
                         </td>
                         <td style="text-align:center">
