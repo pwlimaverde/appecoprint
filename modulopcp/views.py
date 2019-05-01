@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 import xlrd
 from datetime import datetime
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.views.generic import View, CreateView, ListView, UpdateView
 from .models import Ops, Upload_list_op, Reg_entrega
@@ -83,7 +84,7 @@ def upcancelada(request, pk):
         Reg_entrega.objects.filter(pk=pk).update(entrega=ent)
     else:
         Reg_entrega.objects.filter(pk=pk).update(cancelada=True)
-    return redirect('url_list_prod_comp_op')
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 
 @method_decorator(login_required, name='dispatch')
@@ -103,9 +104,9 @@ class List_prod_comp_op(ListView):
 @method_decorator(login_required, name='dispatch')
 class List_prod_op(ListView):
 
-    model = Ops
-    template_name = 'modulopcp/listagemop.html'
-    ordering = ['-id']
+    model = Reg_entrega
+    template_name = 'modulopcp/listagemoppro.html'
+    ordering = ['-op']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

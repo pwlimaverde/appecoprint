@@ -3,8 +3,6 @@
 {% load static %}
 
 {% block head %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
     <style>
         .truncate {
         display: inline-block;
@@ -13,12 +11,12 @@
         text-overflow: ellipsis;
         }
     </style>
-    <title>Lista Completa de OPS</title>
+    <title>OPS em produção</title>
 {% endblock %}
 
 {% block modulos %}active{% endblock %}
 {% block pcp %}active{% endblock %}
-{% block lipcp %}active{% endblock %}
+{% block lipcpprod %}active{% endblock %}
 
 {% block main %}
 
@@ -33,57 +31,46 @@
             $('table td:nth-child(4)').css("display", "none");
             $('table th:nth-child(5)').css("display", "none");
             $('table td:nth-child(5)').css("display", "none");
-            $('table th:nth-child(6)').css("display", "none");
-            $('table td:nth-child(6)').css("display", "none");
-            $('table th:nth-child(7)').css("display", "none");
-            $('table td:nth-child(7)').css("display", "none");
             }
             else{
             $('table th:nth-child(2)').css("display", "none");
             $('table td:nth-child(2)').css("display", "none");
-            $('table th:nth-child(4)').css("display", "none");
-            $('table td:nth-child(4)').css("display", "none");
-            $('table th:nth-child(5)').css("display", "none");
-            $('table td:nth-child(5)').css("display", "none");
             }
             });
     </script>
+    <div class="col-md-12">
+        <h2 align="center">OPS em produção</h2>
+        <hr>
+    </div>
     <div class="col-md-12">
         <font size="2">
         <table id="tabela" class="table table-striped">
             <thead>
                 <tr>
                     <th style="text-align:center" scope="col" width="5%">Op</th>
-                    <th style="text-align:center" scope="col" width="42%">Cliente / Serviço</th>
+                    <th style="text-align:center" scope="col" width="60%">Cliente / Serviço</th>
                     <th style="text-align:center" scope="col" width="5%">Quant</th>
-                    <th style="text-align:center" scope="col" width="8%">Vendedor</th>
-                    <th style="text-align:center" scope="col" width="8%">Entrada</th>
-                    <th style="text-align:center" scope="col" width="8%">Prev entrega</th>
-                    <th style="text-align:center" scope="col" width="8%">Entregue</th>
-                    <th style="text-align:center" scope="col" width="8%">Status</th>
-                    <th style="text-align:center" scope="col" width="8" ></th>
-                    <th style="text-align:center" scope="col" width="8" ></th>
+                    <th style="text-align:center" scope="col" width="5%">Vendedor</th>
+                    <th style="text-align:center" scope="col" width="5%">Entrada</th>
+                    <th style="text-align:center" scope="col" width="10%">Prev entrega</th>
+                    <th style="text-align:center" scope="col" width="5"></th>
+                    <th style="text-align:center" scope="col" width="5"></th>
                 </tr>
             </thead>
             <tbody>
-                {% for valor in object_list %}
-                    <tr>
+                {% for valor in object_list|dictsort:"op.prev_entrega" %}
+                    {% if valor.entrega %}
+                        {{ continue }}
+                    {% elif valor.cancelada %}
+                        {{ continue }}
+                    {% else %}
+                        <tr>
                         <td style="text-align:center">{{ valor.op.op }}</td>
-                        <td style="width: 580px" height="35" class="truncate">{{ valor.op.cliente }} / {{ valor.op.servico }}</td>
+                        <td style="width: 800px" height="48" class="truncate">{{ valor.op.cliente }} / {{ valor.op.servico }}</td>
                         <td style="text-align:center">{{ valor.op.quant }}</td>
-                        <td style="width: 100px" height="35" class="truncate">{{ valor.op.vendedor }}</td>
+                        <td style="width: 130px" height="48" class="truncate">{{ valor.op.vendedor }}</td>
                         <td style="text-align:center">{{ valor.op.entrada|date:"d/m/Y" }}</td>
                         <td style="text-align:center">{{ valor.op.prev_entrega|date:"d/m/Y" }}</td>
-                        <td style="text-align:center">{{ valor.entrega|date:"d/m/Y" }}</td>
-                        <td style="text-align:center">
-                            {% if valor.cancelada == True %}
-                                <p>Cancelada</p>
-                            {% elif valor.entrega %}
-                                <p>Produzida</p>
-                            {% else %}
-                                <p>Em produção</p>
-                            {% endif %}
-                        </td>
                         <td style="text-align:center">
                             <form method="POST" action="{% url 'url_list_prod_comp_up_op' valor.id %}">
                                 {% csrf_token %}
@@ -96,6 +83,7 @@
                         </td>
                         <td style="text-align:center"><a href="{% url 'url_list_prod_comp_up_op' valor.id %} " class="btn btn-outline-secondary btn-sm btn-block">-</a></td>
                     </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>
@@ -106,21 +94,6 @@
             truncate.forEach(function (elemento, indice) {
             elemento.title = elemento.innerHTML;
             })
-        </script>
-        <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-        <script>
-            $(document).ready(function(){
-              $('#tabela').DataTable({
-                  "language": {
-                        "lengthMenu": "Mostrando _MENU_ registros por página",
-                        "zeroRecords": "Nada encontrado",
-                        "info": "Mostrando página _PAGE_ de _PAGES_",
-                        "infoEmpty": "Nenhum registro disponível",
-                        "infoFiltered": "(filtrado de _MAX_ registros no total)"
-                    }
-                });
-            });
         </script>
         <hr>
         <br>

@@ -20,7 +20,7 @@ class Ops(models.Model):
     prev_entrega = models.DateTimeField(blank=False, null=False)
 
     def __str__(self):
-        return str(self.op) + ' - ' + self.cliente
+        return str(self.prev_entrega) + ' - ' + self.cliente
 
 
 class Reg_entrega(models.Model):
