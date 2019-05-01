@@ -111,4 +111,5 @@ class List_prod_op(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = Reg_entregaForm()
+        context['now'] = datetime.now()
         return context

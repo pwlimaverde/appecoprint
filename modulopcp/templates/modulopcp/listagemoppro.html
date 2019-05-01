@@ -26,6 +26,14 @@
         table td:nth-child(4) {
         display: none;
         }
+        @media screen and (max-width: 750px) {
+        table th:nth-child(7) {
+        display: none;
+        }
+        @media screen and (max-width: 750px) {
+        table td:nth-child(7) {
+        display: none;
+        }
     </style>
     <title>OPS em produção</title>
 {% endblock %}
@@ -37,10 +45,15 @@
 {% block main %}
 
 <div class="row">
-
     <div class="col-md-12">
-        <h2 align="center">OPS em produção</h2>
-        <hr>
+        <div class="row">
+        <div class="col-md-11">
+            <h2 align="center">OPS em produção</h2>
+        </div>
+        <div class="col-md-1">
+            <p align="center">{{ now|date:"d/m/Y" }}</p>
+        </div>
+    </div>
     </div>
     <div class="col-md-12">
         <font size="2">
@@ -53,6 +66,7 @@
                     <th style="text-align:center" scope="col" width="5%">Vendedor</th>
                     <th style="text-align:center" scope="col" width="50px">Entrada</th>
                     <th style="text-align:center" scope="col" width="50px">Prev entrega</th>
+                    <th style="text-align:center" scope="col" width="15%">Obs</th>
                     <th style="text-align:center" scope="col" width="5%"></th>
                     <th style="text-align:center" scope="col" width="5%"></th>
                 </tr>
@@ -66,11 +80,18 @@
                     {% else %}
                         <tr>
                         <td style="text-align:center">{{ valor.op.op }}</td>
-                        <td style="width: 750px" height="50" class="truncate">{{ valor.op.cliente }} / {{ valor.op.servico }}</td>
+                        <td style="width: 660px" height="50" class="truncate">{{ valor.op.cliente }} / {{ valor.op.servico }}</td>
                         <td style="text-align:center">{{ valor.op.quant }}</td>
                         <td style="text-align:center; width: 130px" height="50" class="truncate">{{ valor.op.vendedor }}</td>
                         <td style="text-align:center">{{ valor.op.entrada|date:"d/m/Y" }}</td>
                         <td style="text-align:center">{{ valor.op.prev_entrega|date:"d/m/Y" }}</td>
+                        <td style="text-align:center">
+                            {% if valor.obs %}
+                                {{ valor.obs }}
+                            {% else %}
+
+                            {% endif %}
+                        </td>
                         <td style="text-align:center">
                             <form method="POST" action="{% url 'url_list_prod_comp_up_op' valor.id %}">
                                 {% csrf_token %}
