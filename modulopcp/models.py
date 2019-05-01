@@ -31,7 +31,10 @@ class Ops(models.Model):
         diasat = str(dpn - dpe)
         sdias = diasp.split(' ')
         sdiasat = diasat.split(' ')
-        stat['diasp'] = sdias[0]
+        if sdias[0] == '0:00:00':
+            stat['diasp'] = 0
+        else:
+            stat['diasp'] = int(sdias[0])
 
 
         if sepe[0] < sepn[0]:

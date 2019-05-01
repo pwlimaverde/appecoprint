@@ -78,13 +78,13 @@
                     {% elif valor.cancelada %}
                         {{ continue }}
                     {% else %}
-                        <tr>
+                        <tr {% if valor.op.status.diasp < 0 %} style="color:#DF0101; background-color:#F8E0E0" {% elif valor.op.status.diasp == 0 %} style="color:#0B0B3B; background-color:#F5F6CE" {%else%} style="color:#0B0B3B" {% endif %}>
                         <td style="text-align:center">{{ valor.op.op }}</td>
                         <td style="width: 660px" height="55" class="truncate">{{ valor.op.cliente }} / {{ valor.op.servico }}</td>
                         <td style="text-align:center">{{ valor.op.quant }}</td>
                         <td style="text-align:center; width: 130px" height="55" class="truncate">{{ valor.op.vendedor }}</td>
                         <td style="text-align:center">{{ valor.op.entrada|date:"d/m/Y" }}</td>
-                        <td style="text-align:center; color:red">{{ valor.op.prev_entrega|date:"d/m/Y" }} - {{ valor.op.status.diasp }}</td>
+                        <td style="text-align:center">{{ valor.op.prev_entrega|date:"d/m/Y" }}</td>
                         <td style="text-align:center">
                             {% if valor.obs %}
                                 {{ valor.obs }} - {{ valor.op.status.posicao }}
