@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block head %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
     <title>Upload de OPS</title>
 {% endblock %}
@@ -14,8 +15,31 @@
 {% block main %}
 
 <div class="row">
+    <script>
+             $( window ).resize(function() {
+            var largura = $(window).width();
+            if (largura < 442){
+            $('table th:nth-child(3)').css("display", "none");
+            $('table td:nth-child(3)').css("display", "none");
+            $('table th:nth-child(5)').css("display", "none");
+            $('table td:nth-child(5)').css("display", "none");
+            $('table th:nth-child(6)').css("display", "none");
+            $('table td:nth-child(6)').css("display", "none");
+            $('table th:nth-child(8)').css("display", "none");
+            $('table td:nth-child(8)').css("display", "none");
+            }
+            else{
+            $('table th:nth-child(3)').css("display", "none");
+            $('table td:nth-child(3)').css("display", "none");
+            $('table th:nth-child(5)').css("display", "none");
+            $('table td:nth-child(5)').css("display", "none");
+            $('table th:nth-child(6)').css("display", "none");
+            $('table td:nth-child(6)').css("display", "none");
+            }
+            });
+            </script>
     <div class="col-md-12">
-        <font size="2">
+        <font size="1">
         <table id="tabela" class="table table-striped">
             <thead>
                 <tr>

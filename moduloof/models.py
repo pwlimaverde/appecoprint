@@ -108,9 +108,9 @@ class calculo(object):
 
         return dmq
 
-    def calculovf(self, mqg, vg):
+    def calculovf(self, kgg, vg):
         # Constantes
-        mqg = mqg
+        kgg = kgg
         vg = vg
         mi = float(6)
         a = float(4)
@@ -125,15 +125,15 @@ class calculo(object):
         me = float(150)
 
         # Calculos Valores do metro
-        if mqg >= me:
+        if kgg >= me:
             return float(vg + e)
-        elif mqg >= md:
+        elif kgg >= md:
             return float(vg + d)
-        elif mqg >= mc:
+        elif kgg >= mc:
             return float(vg + c)
-        elif mqg >= mb:
+        elif kgg >= mb:
             return float(vg + b)
-        elif mqg >= ma:
+        elif kgg >= ma:
             return float(vg + a)
         else:
             return float(vg + mi)
@@ -215,8 +215,8 @@ class Orcamento_filme(models.Model, calculo):
         # Calculos Base
         area = calculo.calcarea(self, comp, larg)
         kgmi = float(vatmi / (va + mi))
-        ar = float(area * rend)
-        quantmi = int(round(float((kgmi * float(conv)) / ar), 0))
+        ar = float(area / rend)
+        quantmi = int(round(float(kgmi / ar), 0))
         quantmi = str(quantmi)
 
         # Condicional de arredondamento
@@ -240,92 +240,85 @@ class Orcamento_filme(models.Model, calculo):
         if quant < quantmi:
             quanta = quantmi
         else:
-            quanta = int(quant * 1)
+            quanta = int(quant)
 
         quantb = int(quanta * 2)
         quantc = int(quanta * 3)
-        mqmi = float((area * rend * quantmi)/conv)
-        mqa = float((area * rend * quanta)/conv)
-        mqb = float((area * rend * quantb)/conv)
-        mqc = float((area * rend * quantc)/conv)
+        kggmi = float(((area / rend) * quantmi))
+        kgga = float(((area / rend) * quanta))
+        kggb = float(((area / rend) * quantb))
+        kggc = float(((area / rend) * quantc))
 
         # Calculos Valores
-        vaa = calculo.calculovf(self, mqa, va)
-        vaa = calculo.calculoaca(
-            self,
-            vaa,
-            inc
-        )
-        vab = calculo.calculovf(self, mqb, va)
-        vab = calculo.calculoaca(
-            self,
-            vab,
-            inc
-        )
-        vac = calculo.calculovf(self, mqc, va)
-        vac = calculo.calculoaca(
-            self,
-            vac,
-            inc
-        )
-        vami = calculo.calculovf(self, mqmi, va)
-        vami = calculo.calculoaca(
-            self,
-            vami,
-            inc
-        )
+        vami = calculo.calculovf(self, kggmi, va)
+        vaa = calculo.calculovf(self, kgga, va)
+        vab = calculo.calculovf(self, kggb, va)
+        vac = calculo.calculovf(self, kggc, va)
+
 
         if vab >= vaa:
             quantb = quantb * 2
-            mqb = float((area * rend * quantb)/conv)
-            vab = calculo.calculova(self, mqb, va)
+            kggb = float(((area / rend) * quantb))
+            vab = calculo.calculova(self, kggb, va)
             if vab >= vaa:
                 vab = round(calculo.calculodes(vaa, 3), 2)
 
         if vac >= vab:
             quantc = quantb * 2
-            mqc = float((area * rend * quantc)/conv)
-            vac = calculo.calculova(self, mqc, va)
+            kggc = float(((area / rend) * quantc))
+            vac = calculo.calculova(self, kggc, va)
             if vac >= vab:
                 vac = round(calculo.calculodes(self, vab, 3), 2)
 
-
+        vami = calculo.calculoaca(
+            self,
+            vami,
+            inc
+        )
+        vaa = calculo.calculoaca(
+            self,
+            vaa,
+            inc
+        )
+        vab = calculo.calculoaca(
+            self,
+            vab,
+            inc
+        )
+        vac = calculo.calculoaca(
+            self,
+            vac,
+            inc
+        )
         # Valor Unitário
-        resa = float(round(((mqa * vaa) / quanta), 4))
-        resb = float(round(((mqb * vab) / quantb), 4))
-        resc = float(round(((mqc * vac) / quantc), 4))
+        resa = float(round(((kgga * vaa) / quanta), 4))
+        resb = float(round(((kggb * vab) / quantb), 4))
+        resc = float(round(((kggc * vac) / quantc), 4))
 
         cvf['kgmi'] = kgmi
         cvf['vami'] = vami
         cvf['quantmi'] = quantmi
         cvf['area'] = area
         cvf['ar'] = ar
-        cvf['mqa'] = mqa
+        cvf['kgga'] = kgga
 
         cvf['vaa'] = vaa
         cvf['quanta'] = quanta
         cvf['valor_a'] = resa
-        cvf['total_a'] = round(mqa * vaa, 2)
-        cvf['totalp_a'] = round(mqa, 2)
+        cvf['total_a'] = round(kgga * vaa, 2)
+        cvf['totalp_a'] = round(kgga, 2)
 
         cvf['vab'] = vab
         cvf['quantb'] = quantb
         cvf['valor_b'] = resb
-        cvf['total_b'] = round(mqb * vab, 2)
-        cvf['totalp_b'] = round(mqb, 2)
+        cvf['total_b'] = round(kggb * vab, 2)
+        cvf['totalp_b'] = round(kggb, 2)
 
         cvf['vac'] = vac
         cvf['quantc'] = quantc
         cvf['valor_c'] = resc
-        cvf['total_c'] = round(mqc * vac, 2)
-        cvf['totalp_c'] = round(mqc, 2)
-
-        cvf['kgmi'] = kgmi
-        cvf['vami'] = vami
-        cvf['quantmi'] = quantmi
-        cvf['area'] = area
-        cvf['ar'] = ar
-        cvf['mqa'] = mqa
+        cvf['total_c'] = round(kggc * vac, 2)
+        cvf['totalp_c'] = round(kggc, 2)
 
         return cvf
 

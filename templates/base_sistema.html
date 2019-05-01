@@ -57,8 +57,14 @@
                         </li>
                     </ul>
                 {% else %}
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <ul class="dropdown-menu disabled" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item disabled" href="#">Digital</a></li>
+                        <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle disabled" href="#">PCP</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'url_upload_op' %}">Upload de OPS</a></li>
+                                <li><a class="dropdown-item" href="{% url 'url_list_prod_comp_op' %}">Lista completa de OPS</a></li>
+                            </ul>
+                        </li>
                         <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle disabled" href="#">Flexo</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'url_ladesivo' %}">Orçamento Adesivo</a></li>
