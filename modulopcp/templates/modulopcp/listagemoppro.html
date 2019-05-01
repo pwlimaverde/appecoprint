@@ -73,7 +73,7 @@
             </thead>
             <tbody>
                 {% for valor in object_list|dictsort:"op.prev_entrega" %}
-                    {% if valor.entrega %}
+                    {% if valor.produzido %}
                         {{ continue }}
                     {% elif valor.cancelada %}
                         {{ continue }}

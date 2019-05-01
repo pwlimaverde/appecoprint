@@ -54,8 +54,9 @@ class Ops(models.Model):
 
 class Reg_entrega(models.Model):
     op = models.OneToOneField(Ops, on_delete=models.PROTECT, blank=False, null=False)
-    entrega = models.DateField(blank=True, null=True)
+    produzido = models.DateField(blank=True, null=True)
     obs = models.CharField(max_length=50, blank=True, null=True)
+    entrega = models.DateField(blank=True, null=True)
     cancelada = models.BooleanField(default=False)
 
     def __str__(self):
