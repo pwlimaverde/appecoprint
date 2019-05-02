@@ -46,7 +46,8 @@
                         <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle {% block pcp %}{% endblock %}" href="#">PCP</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item {% block uppcp %}{% endblock %}" href="{% url 'url_upload_op' %}">Upload de OPS</a></li>
-                                <li><a class="dropdown-item {% block lipcpprod %}{% endblock %}" href="{% url 'url_list_prod_op' %}">Lista de OPS em produção</a></li>
+                                <li><a class="dropdown-item {% block lipcpprod %}{% endblock %}" href="{% url 'url_list_prod_op' %}">Lista de OPS em Produção</a></li>
+                                <li><a class="dropdown-item {% block lipcpent %}{% endblock %}" href="{% url 'url_list_ent_op' %}">Lista de OPS em Expedição</a></li>
                                 <li><a class="dropdown-item {% block lipcp %}{% endblock %}" href="{% url 'url_list_prod_comp_op' %}">Lista completa de OPS</a></li>
                             </ul>
                         </li>

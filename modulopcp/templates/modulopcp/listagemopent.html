@@ -35,12 +35,12 @@
         display: none;
         }
     </style>
-    <title>OPS em produção</title>
+    <title>OPS em Expedição</title>
 {% endblock %}
 
 {% block modulos %}active{% endblock %}
 {% block pcp %}active{% endblock %}
-{% block lipcpprod %}active{% endblock %}
+{% block lipcpent %}active{% endblock %}
 
 {% block main %}
 
@@ -48,7 +48,7 @@
     <div class="col-md-12">
         <div class="row">
         <div class="col-md-11">
-            <h2 align="center">OPS em Produção</h2>
+            <h2 align="center">OPS em Expedição</h2>
         </div>
         <div class="col-md-1">
             <p align="center">{{ now|date:"d/m/Y" }}</p>
@@ -67,7 +67,6 @@
                     <th style="text-align:center" scope="col" width="50px">Entrada</th>
                     <th style="text-align:center" scope="col" width="50px">Prev entrega</th>
                     <th style="text-align:center" scope="col" width="15%">Obs / Status</th>
-                    <th style="text-align:center" scope="col" width="5%"></th>
                     <th style="text-align:center" scope="col" width="5%"></th>
                 </tr>
             </thead>
@@ -93,7 +92,7 @@
                             {% endif %}
                         </td>
                         <td style="text-align:center">
-                            <form method="POST" action="{% url 'url_list_prod_up_op' valor.id %}">
+                            <form method="POST" action="{% url 'url_list_ent_up_op' valor.id %}">
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-12">
@@ -102,7 +101,6 @@
                                 </div>
                             </form>
                         </td>
-                        <td style="text-align:center"><a href="{% url 'url_list_prod_up_op' valor.id %} " class="btn btn-outline-secondary btn-sm btn-block">-</a></td>
                     </tr>
                     {% endif %}
                 {% endfor %}

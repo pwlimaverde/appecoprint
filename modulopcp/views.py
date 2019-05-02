@@ -78,12 +78,20 @@ class Novo_reg_entrega(CreateView):
 """
 
 @login_required
-def upcancelada(request, pk):
+def upprod(request, pk):
     ent = datetime.now()
     if request.method == 'POST':
         Reg_entrega.objects.filter(pk=pk).update(produzido=ent)
     else:
         Reg_entrega.objects.filter(pk=pk).update(cancelada=True)
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+
+
+@login_required
+def upent(request, pk):
+    ent = datetime.now()
+    if request.method == 'POST':
+        Reg_entrega.objects.filter(pk=pk).update(entrega=ent)
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 
@@ -106,6 +114,20 @@ class List_prod_op(ListView):
 
     model = Reg_entrega
     template_name = 'modulopcp/listagemoppro.html'
+    ordering = ['-op']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = Reg_entregaForm()
+        context['now'] = datetime.now()
+        return context
+
+
+@method_decorator(login_required, name='dispatch')
+class List_ent_op(ListView):
+
+    model = Reg_entrega
+    template_name = 'modulopcp/listagemopent.html'
     ordering = ['-op']
 
     def get_context_data(self, **kwargs):

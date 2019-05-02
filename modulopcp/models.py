@@ -49,7 +49,7 @@ class Ops(models.Model):
         return stat
 
     def __str__(self):
-        return str(self.prev_entrega) + ' - ' + self.cliente
+        return str(self.op) + ' - ' + self.cliente
 
 
 class Reg_entrega(models.Model):
@@ -64,4 +64,4 @@ class Reg_entrega(models.Model):
         if self.cancelada == True:
             return str(self.op) + ' - ' + str(self.entrega) + ' - Cancelada'
 
-        return str(self.op) + ' - ' + str(self.entrega)
+        return str(self.op) + ' - ' + str(self.produzido)
