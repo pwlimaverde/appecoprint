@@ -53,7 +53,7 @@ class Opsv2(models.Model):
 
 
 class Reg_entregav2(models.Model):
-    op = models.OneToOneField(Ops, on_delete=models.PROTECT, blank=False, null=False)
+    op = models.OneToOneField(Opsv2, on_delete=models.PROTECT, blank=False, null=False)
     produzido = models.DateField(blank=True, null=True)
     obs = models.CharField(max_length=50, blank=True, null=True)
     entrega = models.DateField(blank=True, null=True)
