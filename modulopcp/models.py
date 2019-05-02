@@ -1,14 +1,14 @@
 from django.db import models
 from datetime import datetime
 
-class Upload_list_op(models.Model):
+class Upload_list_opv2(models.Model):
     descricao = models.CharField(max_length=200, blank=False, null=False)
     arquivo = models.FileField(max_length=200, upload_to='static/arquivosxls/', blank=False, null=False)
 
     def __str__(self):
         return self.descricao
 
-class Ops(models.Model):
+class Opsv2(models.Model):
     orcamento = models.IntegerField(max_length=5, blank=False, null=False)
     cliente = models.CharField(max_length=300, blank=False, null=False)
     servico = models.TextField(blank=False, null=False)
@@ -52,7 +52,7 @@ class Ops(models.Model):
         return str(self.op) + ' - ' + self.cliente
 
 
-class Reg_entrega(models.Model):
+class Reg_entregav2(models.Model):
     op = models.OneToOneField(Ops, on_delete=models.PROTECT, blank=False, null=False)
     produzido = models.DateField(blank=True, null=True)
     obs = models.CharField(max_length=50, blank=True, null=True)
