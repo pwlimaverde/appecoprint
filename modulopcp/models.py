@@ -38,7 +38,7 @@ class Ops(models.Model):
 
 
         if sepe[0] < sepn[0]:
-            stat['posicao'] = 'Atrazado a ' + str(sdiasat[0]) + ' dias'
+            stat['posicao'] = 'Atrazado a ' + str(sdiasat[0]) + ' dia(s)'
         elif sepe[0] == sepn[0]:
             stat['posicao'] = 'Entrega Hoje'
         elif diasp[0] <= '1':
@@ -58,6 +58,31 @@ class Reg_entrega(models.Model):
     obs = models.CharField(max_length=50, blank=True, null=True)
     entrega = models.DateField(blank=True, null=True)
     cancelada = models.BooleanField(default=False)
+
+    def statusent(self):
+        statent = {}
+        now = str(datetime.now())
+        prod = str(self.produzido)
+        sepe = prod.split(' ')
+        sepn = now.split(' ')
+        dpe = datetime.strptime(sepe[0], '%Y-%m-%d').date()
+        dpn = datetime.strptime(sepn[0], '%Y-%m-%d').date()
+        diasp = str(dpe - dpn)
+        diasat = str(dpn - dpe)
+        sdias = diasp.split(' ')
+        sdiasat = diasat.split(' ')
+        if sdias[0] == '0:00:00':
+            statent['diasat'] = 0
+        else:
+            statent['diasat'] = int(sdiasat[0])
+
+
+        if sepe[0] < sepn[0]:
+            statent['posicao'] = 'Em expedição a ' + str(sdiasat[0]) + ' dias'
+        elif sepe[0] == sepn[0]:
+            statent['posicao'] = 'Entrou em expedição Hoje'
+
+        return statent
 
     def __str__(self):
 

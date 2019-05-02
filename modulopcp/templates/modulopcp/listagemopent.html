@@ -65,44 +65,46 @@
                     <th style="text-align:center" scope="col" width="50px">Quant</th>
                     <th style="text-align:center" scope="col" width="5%">Vendedor</th>
                     <th style="text-align:center" scope="col" width="50px">Entrada</th>
-                    <th style="text-align:center" scope="col" width="50px">Prev entrega</th>
-                    <th style="text-align:center" scope="col" width="15%">Obs / Status</th>
+                    <th style="text-align:center" scope="col" width="50px">Produzida</th>
+                    <th style="text-align:center" scope="col" width="15%">Obs</th>
                     <th style="text-align:center" scope="col" width="5%"></th>
                 </tr>
             </thead>
             <tbody>
                 {% for valor in object_list|dictsort:"op.prev_entrega" %}
-                    {% if valor.produzido %}
-                        {{ continue }}
-                    {% elif valor.cancelada %}
-                        {{ continue }}
-                    {% else %}
-                        <tr {% if valor.op.status.diasp < 0 %} style="color:#DF0101; background-color:#F8E0E0" {% elif valor.op.status.diasp == 0 %} style="color:#0B0B3B; background-color:#F5F6CE" {%else%} style="color:#0B0B3B" {% endif %}>
-                        <td style="text-align:center">{{ valor.op.op }}</td>
-                        <td style="width: 660px" height="55" class="truncate">{{ valor.op.cliente }} / {{ valor.op.servico }}</td>
-                        <td style="text-align:center">{{ valor.op.quant }}</td>
-                        <td style="text-align:center; width: 130px" height="55" class="truncate">{{ valor.op.vendedor }}</td>
-                        <td style="text-align:center">{{ valor.op.entrada|date:"d/m/Y" }}</td>
-                        <td style="text-align:center">{{ valor.op.prev_entrega|date:"d/m/Y" }}</td>
-                        <td style="text-align:center">
-                            {% if valor.obs %}
-                                {{ valor.obs }} - {{ valor.op.status.posicao }}
-                            {% else %}
-                                {{ valor.op.status.posicao }}
-                            {% endif %}
-                        </td>
-                        <td style="text-align:center">
-                            <form method="POST" action="{% url 'url_list_ent_up_op' valor.id %}">
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-dark btn-sm btn-block" size="5px">+</button>
+                        {% if valor.entrega %}
+                            {{ continue }}
+                        {% elif valor.cancelada %}
+                            {{ continue }}
+                        {% elif not valor.produzido %}
+                            {{ continue }}
+                        {% else %}
+                            <tr>
+                            <td style="text-align:center">{{ valor.op.op }}</td>
+                            <td style="width: 660px" height="55" class="truncate">{{ valor.op.cliente }} / {{ valor.op.servico }}</td>
+                            <td style="text-align:center">{{ valor.op.quant }}</td>
+                            <td style="text-align:center; width: 130px" height="55" class="truncate">{{ valor.op.vendedor }}</td>
+                            <td style="text-align:center">{{ valor.op.entrada|date:"d/m/Y" }}</td>
+                            <td style="text-align:center">{{ valor.produzido|date:"d/m/Y" }}</td>
+                            <td style="text-align:center">
+                                {% if valor.obs %}
+                                    {{ valor.obs }} - {{ valor.statusent.posicao }}
+                                {% else %}
+                                    {{ valor.statusent.posicao }}
+                                {% endif %}
+                            </td>
+                            <td style="text-align:center">
+                                <form method="POST" action="{% url 'url_list_ent_up_op' valor.id %}">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-dark btn-sm btn-block" size="5px">+</button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endif %}
+                                </form>
+                            </td>
+                        </tr>
+                        {% endif %}
                 {% endfor %}
             </tbody>
         </table>
