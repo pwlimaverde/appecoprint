@@ -79,7 +79,9 @@ class Novo_reg_entrega(CreateView):
 
 @login_required
 def upprod(request, pk):
+
     ent = datetime.now()
+
     if request.method == 'POST':
         Reg_entregav2.objects.filter(pk=pk).update(produzido=ent)
 
@@ -98,10 +100,13 @@ def canprod(request, pk):
 
 @login_required
 def upent(request, pk):
+
     ent = datetime.now()
+
     if request.method == 'POST':
         Reg_entregav2.objects.filter(pk=pk).update(entrega=ent)
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+
+    return HttpResponse('<script>history.back();</script>')
 
 
 @method_decorator(login_required, name='dispatch')

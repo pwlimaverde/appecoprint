@@ -15,7 +15,7 @@ urlpatterns = [
          name='url_list_prod_up_op'),
     path('list-prod-can-op/<int:pk>', canprod,
          name='url_list_prod_can_op'),
-    path('list-ent-op/<int:pk>/', upent,
+    path('list-ent-up-op/<int:pk>/', upent,
          name='url_list_ent_up_op'),
 ]
 

@@ -68,7 +68,7 @@
             </thead>
             <tbody>
                 {% for valor in object_list|dictsort:"op.prev_entrega" %}
-                        <tr {% if valor.op.status.diasp < 0 %} style="color:#DF0101; background-color:#F8E0E0" {% elif valor.op.status.diasp == 0 %} style="color:#0B0B3B; background-color:#F5F6CE" {%else%} style="color:#0B0B3B" {% endif %}>
+                        <tr>
                         <td style="text-align:center">{{ valor.op.op }}</td>
                         <td style="width: 510px" height="58" class="truncate">{{ valor.op.cliente }} / {{ valor.op.servico }}</td>
                         <td style="text-align:center">{{ valor.op.quant }}</td>
@@ -96,12 +96,21 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-dark btn-sm btn-block" size="5px">+</button>
+                                        <button type="submit" class="btn btn-dark btn-sm btn-block" size="5px" onClick = "window.location.reload ()">+</button>
                                     </div>
                                 </div>
                             </form>
                         </td>
-                        <td style="text-align:center"><a href="{% url 'url_list_prod_up_op' valor.id %} " class="btn btn-outline-secondary btn-sm btn-block">-</a></td>
+                        <td style="text-align:center">
+                            <form method="POST" action="{% url 'url_list_prod_can_op' valor.id %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-dark btn-sm btn-block" size="5px" onClick = "window.location.reload ()">-</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
