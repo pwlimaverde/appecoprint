@@ -77,13 +77,19 @@
 <div class="row">
     <div class="col-md-12">
         <div class="row">
-        <div class="col-md-11" id="anchor">
-            <h2 align="center">OPS em Produção</h2>
+            <div class="col-md-3">
+                <i class="fas fa-search"></i> <input type="text" id="filtro" placeholder="Buscar OPs..."/>
+            </div>
+            <div class="col-md-6">
+                <h2 align="center">OPS em Produção</h2>
+            </div>
+            <div class="col-md-3">
+                <p align="right">{{ now|date:"d/m/Y" }}</p>
+            </div>
         </div>
-        <div class="col-md-1">
-            <p align="center">{{ now|date:"d/m/Y" }}</p>
+        <div class="row">
+
         </div>
-    </div>
     </div>
     <div class="col-md-12">
         <font size="2">
@@ -154,6 +160,18 @@
             truncate.forEach(function (elemento, indice) {
             elemento.title = elemento.innerHTML;
             })
+        </script>
+        <script>
+            var filtro = document.getElementById('filtro');
+            var tabela = document.getElementById('tabela');
+            filtro.onkeyup = function() {
+            var nomeFiltro = filtro.value;
+            for (var i = 1; i < tabela.rows.length; i++) {
+            var conteudoCelula = tabela.rows[i].cells[0].innerText;
+            var corresponde = conteudoCelula.toLowerCase().indexOf(nomeFiltro) >= 0;
+            tabela.rows[i].style.display = corresponde ? '' : 'none';
+            }
+            };
         </script>
         <hr>
         <br>
