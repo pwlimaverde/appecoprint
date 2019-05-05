@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 import xlrd
 from datetime import datetime
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.views.generic import View, CreateView, ListView, UpdateView
 from .models import Opsv2, Upload_list_opv2, Reg_entregav2
@@ -82,9 +82,18 @@ def upprod(request, pk):
     ent = datetime.now()
     if request.method == 'POST':
         Reg_entregav2.objects.filter(pk=pk).update(produzido=ent)
-    else:
+
+    return HttpResponse('<script>history.back();</script>')
+    #return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+
+
+@login_required
+def canprod(request, pk):
+
+    if request.method == 'POST':
         Reg_entregav2.objects.filter(pk=pk).update(cancelada=True)
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+
+    return HttpResponse('<script>history.back();</script>')
 
 
 @login_required
@@ -120,6 +129,7 @@ class List_prod_op(ListView):
         context = super().get_context_data(**kwargs)
         context['form'] = Reg_entregaForm()
         context['now'] = datetime.now()
+
         return context
 
 

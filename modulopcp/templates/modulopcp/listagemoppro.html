@@ -35,6 +35,7 @@
         display: none;
         }
     </style>
+    <!-- <meta http-equiv="refresh" content="5;url={% url 'url_list_prod_op' %}"> -->
     <title>OPS em produção</title>
 {% endblock %}
 
@@ -43,11 +44,10 @@
 {% block lipcpprod %}active{% endblock %}
 
 {% block main %}
-
 <div class="row">
     <div class="col-md-12">
         <div class="row">
-        <div class="col-md-11">
+        <div class="col-md-11" id="anchor">
             <h2 align="center">OPS em Produção</h2>
         </div>
         <div class="col-md-1">
@@ -97,12 +97,21 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-dark btn-sm btn-block" size="5px">+</button>
+                                        <button type="submit" class="btn btn-dark btn-sm btn-block" size="5px" onClick = "window.location.reload ()">+</button>
                                     </div>
                                 </div>
                             </form>
                         </td>
-                        <td style="text-align:center"><a href="{% url 'url_list_prod_up_op' valor.id %} " class="btn btn-outline-secondary btn-sm btn-block">-</a></td>
+                        <td style="text-align:center">
+                            <form method="POST" action="{% url 'url_list_prod_can_op' valor.id %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-dark btn-sm btn-block" size="5px" onClick = "window.location.reload ()">-</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
                     </tr>
                     {% endif %}
                 {% endfor %}
@@ -120,5 +129,4 @@
         <br>
     </div>
 </div>
-
 {% endblock %}

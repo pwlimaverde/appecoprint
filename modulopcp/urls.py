@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Upload_op, List_prod_comp_op, List_prod_op, List_ent_op, upprod, upent
+from .views import Upload_op, List_prod_comp_op, List_prod_op, List_ent_op, upprod, canprod, upent
 
 
 urlpatterns = [
@@ -11,8 +11,10 @@ urlpatterns = [
          name='url_list_prod_op'),
     path('list-ent-op/', List_ent_op.as_view(),
          name='url_list_ent_op'),
-    path('list-prod-op/<int:pk>/', upprod,
+    path('list-prod-up-op/<int:pk>', upprod,
          name='url_list_prod_up_op'),
+    path('list-prod-can-op/<int:pk>', canprod,
+         name='url_list_prod_can_op'),
     path('list-ent-op/<int:pk>/', upent,
          name='url_list_ent_up_op'),
 ]
