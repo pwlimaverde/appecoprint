@@ -9,6 +9,25 @@ from django.contrib import messages
 from django.views.generic import View, CreateView, ListView, UpdateView
 from .models import Opsv2, Upload_list_opv2, Reg_entregav2
 from .forms import Reg_entregaForm
+from baseof.utils import render_to_pdf
+from django.template.loader import get_template
+
+
+@method_decorator(login_required, name='dispatch')
+class RelprodPDF(View):
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        context['object_list'] = Reg_entregav2.objects.all
+        context['now'] = datetime.now()
+        pdf = render_to_pdf('relopsprod.html', context)
+        if pdf:
+            response = pdf
+            filename = "OPs em produção - {}.pdf".format(datetime.now().strftime("%d%m%Y"))
+            content = "inline; filename={}".format(filename)
+            response['Content-Disposition'] = content
+            return response
+        return HttpResponse('Relatorio não encontrado')
 
 
 @method_decorator(login_required, name='dispatch')

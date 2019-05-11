@@ -36,9 +36,8 @@ class Opsv2(models.Model):
         else:
             stat['diasp'] = int(sdias[0])
 
-
         if sepe[0] < sepn[0]:
-            stat['posicao'] = 'Atrazado a ' + str(sdiasat[0]) + ' dia(s)'
+            stat['posicao'] = 'Atrasado a ' + str(sdiasat[0]) + ' dia(s)'
         elif sepe[0] == sepn[0]:
             stat['posicao'] = 'Entrega Hoje'
         elif diasp[0] <= '1':
