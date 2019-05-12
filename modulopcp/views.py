@@ -1,16 +1,50 @@
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
 import xlrd
 from datetime import datetime
-from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render
+from django.http import HttpResponse
 from django.contrib import messages
-from django.views.generic import View, CreateView, ListView, UpdateView
+from django.views.generic import View, ListView
 from .models import Opsv2, Upload_list_opv2, Reg_entregav2
 from .forms import Reg_entregaForm
-from baseof.utils import render_to_pdf
+from .utils import render_to_pdf
+import io
 from django.template.loader import get_template
+from xhtml2pdf import pisa
+
+
+class Render:
+    @staticmethod
+    def render(path: str, params: dict, filename: str):
+        template = get_template(path)
+        html = template.render(params)
+        response = io.BytesIO()
+        pdf = pisa.pisaDocument(
+            io.BytesIO(html.encode("UTF-8")), response
+        )
+        if not pdf.err:
+            response = HttpResponse(
+                response.getvalue(), content_type='application/pdf'
+            )
+            response['Content-Disposition'] = 'attachment; filename={}'.format(filename)
+            return response
+        else:
+            return HttpResponse("Erro ao gerar o arquivo", status=400)
+
+
+class Pdfprod(View):
+
+    def get(self, request):
+        ops = Reg_entregav2.objects.all
+        now = datetime.now()
+        params = {
+            'ops': ops,
+            'request': request,
+            'now': now,
+        }
+
+        return Render.render('modulopcp/relatoriopdfprod.html', params, 'Ops_em_producao-{}.pdf'.format(datetime.now().strftime("%d%m%Y")))
 
 
 @method_decorator(login_required, name='dispatch')
