@@ -20,9 +20,9 @@ class RelprodPDF(View):
         context = {}
         context['object_list'] = Reg_entregav2.objects.all
         context['now'] = datetime.now()
-        pdf = render_to_pdf('relopsprod.html', context)
+        pdf = render_to_pdf('pdf/relopsprod.html', context)
         if pdf:
-            response = pdf
+            response = HttpResponse(pdf, content_type='application/pdf')
             filename = "OPs em produção - {}.pdf".format(datetime.now().strftime("%d%m%Y"))
             content = "inline; filename={}".format(filename)
             response['Content-Disposition'] = content
@@ -37,9 +37,9 @@ class RelexpedPDF(View):
         context = {}
         context['object_list'] = Reg_entregav2.objects.all
         context['now'] = datetime.now()
-        pdf = render_to_pdf('relopsexped.html', context)
+        pdf = render_to_pdf('pdf/relopsprod.html', context)
         if pdf:
-            response = pdf
+            response = HttpResponse(pdf, content_type='application/pdf')
             filename = "OPs em expedição - {}.pdf".format(datetime.now().strftime("%d%m%Y"))
             content = "inline; filename={}".format(filename)
             response['Content-Disposition'] = content
