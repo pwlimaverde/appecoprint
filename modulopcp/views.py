@@ -8,7 +8,6 @@ from django.contrib import messages
 from django.views.generic import View, ListView
 from .models import Opsv2, Upload_list_opv2, Reg_entregav2
 from .forms import Reg_entregaForm
-from .utils import render_to_pdf
 import io
 from django.template.loader import get_template
 from xhtml2pdf import pisa
@@ -33,6 +32,7 @@ class Render:
             return HttpResponse("Erro ao gerar o arquivo", status=400)
 
 
+@method_decorator(login_required, name='dispatch')
 class Pdfprod(View):
 
     def get(self, request):
@@ -47,6 +47,7 @@ class Pdfprod(View):
         return Render.render('modulopcp/relatoriopdfprod.html', params, 'Ops_em_producao-{}.pdf'.format(datetime.now().strftime("%d%m%Y")))
 
 
+@method_decorator(login_required, name='dispatch')
 class Pdfexped(View):
 
     def get(self, request):
@@ -59,46 +60,6 @@ class Pdfexped(View):
         }
 
         return Render.render('modulopcp/relatoriopdfexped.html', params, 'Ops_em_expedicao-{}.pdf'.format(datetime.now().strftime("%d%m%Y")))
-
-
-@method_decorator(login_required, name='dispatch')
-class RelprodPDF(View):
-
-    def get(self, request, *args, **kwargs):
-        context = {}
-        context['object_list'] = Reg_entregav2.objects.all
-        context['now'] = datetime.now()
-        pdf = render_to_pdf('pdf/relopsprod.html', context)
-        if pdf:
-            response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "OPs em produção - {}.pdf".format(datetime.now().strftime("%d%m%Y"))
-            content = "inline; filename={}".format(filename)
-            download = request.GET.get("download")
-            if download:
-                content = "attachment; filename={}".format(filename)
-            response['Content-Disposition'] = content
-            return response
-        return HttpResponse('Relatorio não encontrado')
-
-
-@method_decorator(login_required, name='dispatch')
-class RelexpedPDF(View):
-
-    def get(self, request, *args, **kwargs):
-        context = {}
-        context['object_list'] = Reg_entregav2.objects.all
-        context['now'] = datetime.now()
-        pdf = render_to_pdf('pdf/relopsprod.html', context)
-        if pdf:
-            response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "OPs em expedição - {}.pdf".format(datetime.now().strftime("%d%m%Y"))
-            content = "inline; filename={}".format(filename)
-            download = request.GET.get("download")
-            if download:
-                content = "attachment; filename={}".format(filename)
-            response['Content-Disposition'] = content
-            return response
-        return HttpResponse('Relatorio não encontrado')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -157,6 +118,7 @@ class Upload_op(View):
 
         return render(request, 'modulopcp/uploadop.html', context)
 
+
 """
 @method_decorator(login_required, name='dispatch')
 class Novo_reg_entrega(CreateView):
@@ -166,6 +128,7 @@ class Novo_reg_entrega(CreateView):
     fields = '__all__'
     success_url = reverse_lazy('url_list_prod_comp_op')
 """
+
 
 @login_required
 def upprod(request, pk):
@@ -210,7 +173,6 @@ class List_prod_comp_op(ListView):
         context = super().get_context_data(**kwargs)
         context['form'] = Reg_entregaForm()
         return context
-
 
 
 @method_decorator(login_required, name='dispatch')
