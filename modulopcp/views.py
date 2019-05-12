@@ -47,6 +47,20 @@ class Pdfprod(View):
         return Render.render('modulopcp/relatoriopdfprod.html', params, 'Ops_em_producao-{}.pdf'.format(datetime.now().strftime("%d%m%Y")))
 
 
+class Pdfexped(View):
+
+    def get(self, request):
+        ops = Reg_entregav2.objects.all
+        now = datetime.now()
+        params = {
+            'ops': ops,
+            'request': request,
+            'now': now,
+        }
+
+        return Render.render('modulopcp/relatoriopdfexped.html', params, 'Ops_em_expedicao-{}.pdf'.format(datetime.now().strftime("%d%m%Y")))
+
+
 @method_decorator(login_required, name='dispatch')
 class RelprodPDF(View):
 
