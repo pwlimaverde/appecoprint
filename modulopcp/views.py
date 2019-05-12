@@ -22,9 +22,12 @@ class RelprodPDF(View):
         context['now'] = datetime.now()
         pdf = render_to_pdf('pdf/relopsprod.html', context)
         if pdf:
-            response = HttpResponse(pdf, content_type='static/pdf')
+            response = HttpResponse(pdf, content_type='application/pdf')
             filename = "OPs em produção - {}.pdf".format(datetime.now().strftime("%d%m%Y"))
             content = "inline; filename={}".format(filename)
+            download = request.GET.get("download")
+            if download:
+                content = "attachment; filename={}".format(filename)
             response['Content-Disposition'] = content
             return response
         return HttpResponse('Relatorio não encontrado')
@@ -39,9 +42,12 @@ class RelexpedPDF(View):
         context['now'] = datetime.now()
         pdf = render_to_pdf('pdf/relopsprod.html', context)
         if pdf:
-            response = HttpResponse(pdf, content_type='static/pdf')
+            response = HttpResponse(pdf, content_type='application/pdf')
             filename = "OPs em expedição - {}.pdf".format(datetime.now().strftime("%d%m%Y"))
             content = "inline; filename={}".format(filename)
+            download = request.GET.get("download")
+            if download:
+                content = "attachment; filename={}".format(filename)
             response['Content-Disposition'] = content
             return response
         return HttpResponse('Relatorio não encontrado')
