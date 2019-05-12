@@ -5,6 +5,7 @@ from .views import (
     List_prod_op,
     RelprodPDF,
     List_ent_op,
+    RelexpedPDF,
     upprod,
     canprod,
     upent
@@ -22,6 +23,8 @@ urlpatterns = [
          name='url_rel_prod_op'),
     path('list-ent-op/', List_ent_op.as_view(),
          name='url_list_ent_op'),
+    path('rel-exped-op/', RelexpedPDF.as_view(),
+         name='url_rel_exped_op'),
     path('list-prod-up-op/<int:pk>', upprod,
          name='url_list_prod_up_op'),
     path('list-prod-can-op/<int:pk>', canprod,
