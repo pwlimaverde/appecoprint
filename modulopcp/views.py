@@ -33,6 +33,34 @@ class Render:
 
 
 @method_decorator(login_required, name='dispatch')
+class Impprod(ListView):
+    model = Reg_entregav2
+    template_name = 'modulopcp/impprod.html'
+    ordering = ['-op']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = Reg_entregaForm()
+        context['now'] = datetime.now()
+
+        return context
+
+
+@method_decorator(login_required, name='dispatch')
+class Impexped(ListView):
+    model = Reg_entregav2
+    template_name = 'modulopcp/impexped.html'
+    ordering = ['-op']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = Reg_entregaForm()
+        context['now'] = datetime.now()
+
+        return context
+
+
+@method_decorator(login_required, name='dispatch')
 class Pdfprod(View):
 
     def get(self, request):

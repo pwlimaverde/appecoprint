@@ -8,11 +8,18 @@ from .views import (
     Pdfexped,
     upprod,
     canprod,
-    upent
+    upent,
+    Impprod,
+    Impexped,
 )
 
 
 urlpatterns = [
+    path('impprop/', Impprod.as_view(),
+         name='impprop'),
+    path('impexped/', Impexped.as_view(),
+         name='impexped'),
+
     path('upload-op/', Upload_op.as_view(),
          name='url_upload_op'),
     path('list-prod-comp-op/', List_prod_comp_op.as_view(),

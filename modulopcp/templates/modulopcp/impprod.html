@@ -10,7 +10,7 @@
         font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
         border-collapse: collapse;
         width: 100%;
-        height: 40px;
+        height: 15px;
         overflow: hidden;
         }
 
@@ -70,7 +70,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for valor in ops|dictsort:"op.prev_entrega" %}
+                {% for valor in object_list|dictsort:"op.prev_entrega" %}
                     {% if valor.produzido %}
                         {{ continue }}
                     {% elif valor.cancelada %}
@@ -78,9 +78,7 @@
                     {% else %}
                         <tr {% if valor.op.status.diasp < 0 %} style="color:#DF0101; background-color:#F8E0E0" {% elif valor.op.status.diasp == 0 %} style="color:#0B0B3B; background-color:#F5F6CE" {%else%} style="color:#0B0B3B" {% endif %}>
                             <td style="text-align:center">{{ valor.op.op }}</td>
-                            <td class="truncate">{{ valor.op.cliente }} /
-                                {{ valor.op.servico.0 }}{{ valor.op.servico.1 }}{{ valor.op.servico.2 }}{{ valor.op.servico.3 }}{{ valor.op.servico.4 }}{{ valor.op.servico.5 }}{{ valor.op.servico.6 }}{{ valor.op.servico.7 }}{{ valor.op.servico.8 }}{{ valor.op.servico.9 }}{{ valor.op.servico.10 }}{{ valor.op.servico.11 }}{{ valor.op.servico.12 }}{{ valor.op.servico.13 }}{{ valor.op.servico.14 }}{{ valor.op.servico.15 }}{{ valor.op.servico.16 }}{{ valor.op.servico.17 }}{{ valor.op.servico.18 }}{{ valor.op.servico.19 }}{{ valor.op.servico.20 }}...
-                            </td>
+                            <td class="truncate">{{ valor.op.cliente }} / {{ valor.op.servico }}</td>
                             <td style="text-align:center">{{ valor.op.quant }}</td>
                             <td style="text-align:center" class="truncate2">{{ valor.op.vendedor }}</td>
                             <td style="text-align:center">{{ valor.op.entrada|date:"d/m/Y" }}</td>
