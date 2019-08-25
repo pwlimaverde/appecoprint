@@ -12,7 +12,7 @@ class Opsv2Admin(admin.ModelAdmin):
 
 class Reg_entregav2Admin(admin.ModelAdmin):
     list_display = ('opd', 'servico', 'prev_entrega', 'produzido', 'entrega', 'obs', 'canceladad')
-    list_filter = ('op__prev_entrega', 'obs')
+    list_filter = ('op__prev_entrega', 'obs', 'cancelada')
     search_fields = ('op__op', 'op__cliente', 'op__servico',)
     actions = [produzido, entrega, corteevinco, laminacao, dobra, colagemm, colagemc, numeracao, servter]
 
