@@ -13,6 +13,11 @@ def entrega(modeladmin, request, queryset):
 
 entrega.short_description = 'Material Entregue'
 
+def mesacacabamento(modeladmin, request, queryset):
+    queryset.update(obs="Em mesa de acabamento")
+
+mesacacabamento.short_description = 'Mesa de Acabamento'
+
 def corteevinco(modeladmin, request, queryset):
     queryset.update(obs="Em corte e vinco")
 

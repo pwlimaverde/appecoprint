@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .actions import corteevinco, laminacao,  colagemm, colagemc, numeracao, servter, dobra, produzido, entrega
+from .actions import corteevinco, laminacao,  colagemm, colagemc, numeracao, servter, dobra, produzido, entrega, mesacacabamento
 from .models import Upload_list_opv2, Opsv2, Reg_entregav2
 
 
@@ -14,7 +14,7 @@ class Reg_entregav2Admin(admin.ModelAdmin):
     list_display = ('opd', 'servico', 'prev_entrega', 'produzido', 'entrega', 'obs', 'canceladad')
     list_filter = ('op__prev_entrega', 'obs', 'cancelada')
     search_fields = ('op__op', 'op__cliente', 'op__servico',)
-    actions = [produzido, entrega, corteevinco, laminacao, dobra, colagemm, colagemc, numeracao, servter]
+    actions = [produzido, entrega, mesacacabamento, corteevinco, laminacao, dobra, colagemm, colagemc, numeracao, servter]
 
     def opd(self, obj):
         opd = str(obj.op)
