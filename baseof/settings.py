@@ -9,7 +9,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['localhost', 'appecoprint.herokuapp.com', 'app-ecoprint.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'appecoprint.herokuapp.com', 'app-ecoprint.herokuapp.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
