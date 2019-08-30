@@ -7,6 +7,8 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('moduloof/', include('moduloof.urls')),
-    path('modulopcp/', include('modulopcp.urls')),
+    path('pcp_upload_xls/', include('pcp_upload_xls.urls')),
+    path('pcp_relatorio/', include('pcp_relatorio.urls')),
+    path('pcp_registro_entrega/', include('pcp_registro_entrega.urls')),
 ]
 

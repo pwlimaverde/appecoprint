@@ -1,0 +1,27 @@
+from django.urls import path
+from .views import (
+    List_prod_comp_op,
+    List_prod_op,
+    List_ent_op,
+    upprod,
+    canprod,
+    upent,
+)
+
+
+urlpatterns = [
+
+
+    path('list-prod-comp-op/', List_prod_comp_op.as_view(),
+         name='url_list_prod_comp_op'),
+    path('list-prod-op/', List_prod_op.as_view(),
+         name='url_list_prod_op'),
+    path('list-ent-op/', List_ent_op.as_view(),
+         name='url_list_ent_op'),
+    path('list-prod-up-op/<int:pk>', upprod,
+         name='url_list_prod_up_op'),
+    path('list-prod-can-op/<int:pk>', canprod,
+         name='url_list_prod_can_op'),
+    path('list-ent-up-op/<int:pk>/', upent,
+         name='url_list_ent_up_op'),
+]

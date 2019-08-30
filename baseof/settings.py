@@ -21,7 +21,10 @@ INSTALLED_APPS = [
     'bootstrapform',
     'website',
     'moduloof',
-    'modulopcp',
+    'pcp_upload_xls',
+    'pcp_registro_entrega',
+    'pcp_registro_op',
+    'pcp_relatorio',
     'widget_tweaks',
 ]
 
